@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/workspace.dart';
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -13,19 +12,13 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  void _navigateToHarbinger() {
+  void _navigateToHarbinger(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Harbinger(),
+        builder: (context) => const Harbinger(),
       ),
     );
   }
@@ -34,20 +27,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 174, 189, 227),
+        backgroundColor:Color.fromARGB(255, 199, 230, 238),
         body: Stack(
           children: [
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 100.0),
+                  padding: EdgeInsets.only(left: 20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.fromLTRB(130, 50, 40, 0),
                         child: Text(
-                          'Welcome to Harbinger!',
+                          'Your own automation copilot',
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
@@ -55,11 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: 400,
-                        child: Image.asset('images/loginpage.png'),
+                      SizedBox(height: 100),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 60),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: 400,
+                          child: Image.asset('images/loginpage.png'),
+                        ),
                       ),
                     ],
                   ),
@@ -84,43 +80,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(40.0),
+                  padding: const EdgeInsets.all(100.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF384289),
+                      Container(
+                        // Added a container to hold the "Harbinger" and "Login" text
+                        child: Column(
+                          children: [
+                            
+                            Image.asset(
+                            'images/l.png',
+                            width: 200, // Adjust the width as needed
+                            height: 100, // Adjust the height as needed
+                          ),
+                            
+                          
+                            SizedBox(height: 20),
+                            Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF384289),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 20),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Username',
-                          labelStyle: TextStyle(color: Color(0xFF384289)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildInputField(
+                        labelText: 'Username',
+                        icon: Icons.email_outlined,
                       ),
                       SizedBox(height: 20),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(color: Color(0xFF384289)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildInputField(
+                        labelText: 'Password',
+                        icon: Icons.password,
                         obscureText: true,
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          _navigateToHarbinger(); // Navigate to Harbinger class
+                          _navigateToHarbinger(context); // Navigate to Harbinger class
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 174, 189, 227),
@@ -140,6 +142,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 20),
+                      Text(
+                        "Do not have a login ID? Please reach out to us at",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "harbinger@feuji.com",
+                        style: TextStyle(
+                          color: Color(0xffFF8303),
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -150,7 +167,22 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Widget _buildInputField({
+    required String labelText,
+    IconData? icon,
+    bool obscureText = false,
+  }) {
+    return TextField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(color: Color(0xFF384289)),
+        prefixIcon: icon != null ? Icon(icon, color: Color(0xFF384289)) : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      obscureText: obscureText,
+    );
+  }
 }
-
-
-// ldvkc nb

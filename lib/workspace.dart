@@ -46,10 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 174, 189, 227),
+          backgroundColor:Color.fromARGB(255, 199, 230, 238),
           title: const Center(
             child: Text(
-              "Harbinger",
+              "Harbinger",style: TextStyle(color: Colors.black),
             ),
           ),
           actions: [
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color.fromARGB(255, 174, 189, 227),
+                backgroundColor:Color.fromARGB(255, 199, 230, 238),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
