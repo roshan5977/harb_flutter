@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:harbinger_flutter/models/organaisation_model.dart';
+import 'package:harbinger_flutter/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = "http://localhost:8000";
+  final String baseUrl = AppConstants.BASE_URL;
 
   Future<List<Organisation>> getAllOrganisations() async {
+    
     final Uri url = Uri.parse("$baseUrl/organisation/"); 
     final response = await http.get(url);
 
