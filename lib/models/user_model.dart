@@ -64,6 +64,8 @@ class User {
     };
   }
 
+
+
   @override
   String toString() {
     return 'User{userId: $userId, firstName: $firstName, lastName: $lastName, emailId: $emailId, password: $password, createdBy: $createdBy, updatedBy: $updatedBy, createdOn: $createdOn, updatedOn: $updatedOn, lastLoggedIn: $lastLoggedIn, status: $status, roleRefId: $roleRefId}';
@@ -79,4 +81,5 @@ String userToJson(User data) {
   final jsonData = data.toJson();
   return json.encode(jsonData);
 }
+
 

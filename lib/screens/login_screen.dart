@@ -1,44 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:harbinger_flutter/screens/workspace_screen.dart';
+import 'package:harbinger_flutter/models/project_admin_model.dart';
+import 'package:harbinger_flutter/screens/org_admin_screen.dart';
+import 'package:harbinger_flutter/screens/projectadmin_screen.dart';
+import 'package:harbinger_flutter/screens/projectmember_screen.dart';
+import 'package:harbinger_flutter/screens/superadmin_screen.dart';
+import 'package:harbinger_flutter/services/auth_service.dart';
+import 'package:harbinger_flutter/utils/constants.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Harbinger',
+      //check the  shared pref if logged in  then check the role and traverse .
       home: LoginScreen(),
     );
   }
 }
-class LoginScreen extends StatelessWidget {
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  void _navigateToHarbinger(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Harbinger(),
-      ),
-    );
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _navigateToHarbinger(BuildContext context, String role) {
+    if (role == AppConstants.SUPERADMIN) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const SuperAdminScreen(),
+        ),
+      );
+    } else if (role == AppConstants.ORGADMIN) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const OrgAdminScreen(),
+        ),
+      );
+    } else if (role == AppConstants.PROJECTADMIN) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ProjectAdminScreen(),
+        ),
+      );
+    } else if (role == AppConstants.PROJECTMEMBER) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ProjectMemberScreen(),
+        ),
+      );
+    } else {
+      //invalid role
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor:Color.fromARGB(255, 199, 230, 238),
+        backgroundColor: const Color.fromARGB(255, 199, 230, 238),
         body: Stack(
           children: [
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(130, 50, 40, 0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(130, 50, 40, 0),
                         child: Text(
                           'Your own automation copilot',
                           style: TextStyle(
@@ -48,10 +87,10 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 100),
+                      const SizedBox(height: 100),
                       Padding(
                         padding: const EdgeInsets.only(left: 60),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           height: 400,
                           child: Image.asset('images/loginpage.png'),
@@ -75,7 +114,7 @@ class LoginScreen extends StatelessWidget {
                       color: Colors.black.withOpacity(0.2),
                       spreadRadius: 5,
                       blurRadius: 10,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -88,16 +127,13 @@ class LoginScreen extends StatelessWidget {
                         // Added a container to hold the "Harbinger" and "Login" text
                         child: Column(
                           children: [
-                            
                             Image.asset(
-                            'images/l.png',
-                            width: 200, // Adjust the width as needed
-                            height: 100, // Adjust the height as needed
-                          ),
-                            
-                          
-                            SizedBox(height: 20),
-                            Text(
+                              'images/l.png',
+                              width: 200, // Adjust the width as needed
+                              height: 100, // Adjust the height as needed
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
                               'Login',
                               style: TextStyle(
                                 fontSize: 24,
@@ -108,25 +144,37 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildInputField(
-                        labelText: 'Username',
+                        labelText: 'Email',
                         icon: Icons.email_outlined,
+                        controller: _emailController,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildInputField(
                         labelText: 'Password',
                         icon: Icons.password,
                         obscureText: true,
+                        controller: _passwordController,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          _navigateToHarbinger(context); // Navigate to Harbinger class
+                        onPressed: () async {
+                          final email = _emailController.text;
+                          final password = _passwordController.text;
+
+                          String? role =
+                              await AuthService().login(email, password);
+                          if (role != null) {
+                            _navigateToHarbinger(context, role);
+                          }
+
+                          //invalid credentials
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 174, 189, 227),
-                          padding: EdgeInsets.symmetric(
+                          backgroundColor:
+                              const Color.fromARGB(255, 174, 189, 227),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 40.0,
                             vertical: 15.0,
                           ),
@@ -134,7 +182,7 @@ class LoginScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Login',
                           style: TextStyle(
                             color: Color(0xFF384289),
@@ -142,15 +190,15 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         "Do not have a login ID? Please reach out to us at",
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 16,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "harbinger@feuji.com",
                         style: TextStyle(
                           color: Color(0xffFF8303),
@@ -172,12 +220,15 @@ class LoginScreen extends StatelessWidget {
     required String labelText,
     IconData? icon,
     bool obscureText = false,
+    TextEditingController? controller,
   }) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Color(0xFF384289)),
-        prefixIcon: icon != null ? Icon(icon, color: Color(0xFF384289)) : null,
+        labelStyle: const TextStyle(color: Color(0xFF384289)),
+        prefixIcon:
+            icon != null ? Icon(icon, color: const Color(0xFF384289)) : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
