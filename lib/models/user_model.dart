@@ -1,76 +1,80 @@
 import 'dart:convert';
 
-class Organisation {
-  int orgId;
-  String orgName; 
-  String orgCode;
-  String orgDesc;
-  DateTime orgStartDate;
-  DateTime orgEndDate;
-  String status;
+class User {
+  int userId;
+  String firstName;
+  String lastName;
+  String emailId;
+  String password;
   String createdBy;
   String updatedBy;
   DateTime createdOn;
   DateTime updatedOn;
+  DateTime lastLoggedIn;
+  bool status;
+  int roleRefId;
 
-  Organisation({
-    this.orgId = 0,
-    required this.orgName, 
-    this.orgCode = '',
-    this.orgDesc = '',
-    required this.orgStartDate,
-    required this.orgEndDate,
-    this.status = '',
+  User({
+    this.userId = 0,
+    required this.firstName,
+    required this.lastName,
+    required this.emailId,
+    required this.password,
     this.createdBy = '',
     this.updatedBy = '',
     required this.createdOn,
     required this.updatedOn,
+    required this.lastLoggedIn,
+    this.status = false,
+    this.roleRefId = 0,
   });
 
-  factory Organisation.fromJson(Map<String, dynamic> map) {
-    return Organisation(
-      orgId: map['org_id'],
-      orgName: map['org_name'],
-      orgCode: map['org_code'],
-      orgDesc: map['org_desc'],
-      orgStartDate: DateTime.parse(map['org_start_date']),
-      orgEndDate: DateTime.parse(map['org_end_date']),
-      status: map['status'],
+  factory User.fromJson(Map<String, dynamic> map) {
+    return User(
+      userId: map['user_id'],
+      firstName: map['first_name'],
+      lastName: map['last_name'],
+      emailId: map['email_id'],
+      password: map['password'],
       createdBy: map['created_by'],
       updatedBy: map['updated_by'],
       createdOn: DateTime.parse(map['created_on']),
       updatedOn: DateTime.parse(map['updated_on']),
+      lastLoggedIn: DateTime.parse(map['last_logedin']),
+      status: map['status'],
+      roleRefId: map['role_ref_id'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'org_id': orgId,
-      'org_name': orgName,
-      'org_code': orgCode,
-      'org_desc': orgDesc,
-      'org_start_date': orgStartDate.toIso8601String(),
-      'org_end_date': orgEndDate.toIso8601String(),
-      'status': status,
+      'user_id': userId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'email_id': emailId,
+      'password': password,
       'created_by': createdBy,
       'updated_by': updatedBy,
       'created_on': createdOn.toIso8601String(),
       'updated_on': updatedOn.toIso8601String(),
+      'last_logedin': lastLoggedIn.toIso8601String(),
+      'status': status,
+      'role_ref_id': roleRefId,
     };
   }
 
   @override
   String toString() {
-    return 'Organisation{orgId: $orgId, orgName: $orgName, orgCode: $orgCode, orgDesc: $orgDesc, orgStartDate: $orgStartDate, orgEndDate: $orgEndDate, status: $status, createdBy: $createdBy, updatedBy: $updatedBy, createdOn: $createdOn, updatedOn: $updatedOn}';
+    return 'User{userId: $userId, firstName: $firstName, lastName: $lastName, emailId: $emailId, password: $password, createdBy: $createdBy, updatedBy: $updatedBy, createdOn: $createdOn, updatedOn: $updatedOn, lastLoggedIn: $lastLoggedIn, status: $status, roleRefId: $roleRefId}';
   }
 }
 
-List<Organisation> organisationFromJson(String jsonData) {
+List<User> userFromJson(String jsonData) {
   final data = json.decode(jsonData);
-  return List<Organisation>.from(data.map((item) => Organisation.fromJson(item)));
+  return List<User>.from(data.map((item) => User.fromJson(item)));
 }
 
-String organisationToJson(Organisation data) {
+String userToJson(User data) {
   final jsonData = data.toJson();
   return json.encode(jsonData);
 }

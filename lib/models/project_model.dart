@@ -1,76 +1,68 @@
 import 'dart:convert';
 
-class Organisation {
-  int orgId;
-  String orgName; 
-  String orgCode;
-  String orgDesc;
-  DateTime orgStartDate;
-  DateTime orgEndDate;
-  String status;
-  String createdBy;
-  String updatedBy;
-  DateTime createdOn;
-  DateTime updatedOn;
+class Project {
+  int projectId;
+  String projectName;
+  bool isOrphan;
+  String gitUrl;
+  String ciUsed;
+  String ciUrl;
+  String ciApiKey;
+  int workspaceRefId;
+  int orgRefId;
 
-  Organisation({
-    this.orgId = 0,
-    required this.orgName, 
-    this.orgCode = '',
-    this.orgDesc = '',
-    required this.orgStartDate,
-    required this.orgEndDate,
-    this.status = '',
-    this.createdBy = '',
-    this.updatedBy = '',
-    required this.createdOn,
-    required this.updatedOn,
+  Project({
+    this.projectId = 0,
+    required this.projectName,
+    this.isOrphan = false,
+    this.gitUrl = '',
+    this.ciUsed = '',
+    this.ciUrl = '',
+    this.ciApiKey = '',
+    this.workspaceRefId = 0,
+    this.orgRefId = 0,
   });
 
-  factory Organisation.fromJson(Map<String, dynamic> map) {
-    return Organisation(
-      orgId: map['org_id'],
-      orgName: map['org_name'],
-      orgCode: map['org_code'],
-      orgDesc: map['org_desc'],
-      orgStartDate: DateTime.parse(map['org_start_date']),
-      orgEndDate: DateTime.parse(map['org_end_date']),
-      status: map['status'],
-      createdBy: map['created_by'],
-      updatedBy: map['updated_by'],
-      createdOn: DateTime.parse(map['created_on']),
-      updatedOn: DateTime.parse(map['updated_on']),
+  factory Project.fromJson(Map<String, dynamic> map) {
+    return Project(
+      projectId: map['project_id'],
+      projectName: map['project_name'],
+      isOrphan: map['is_orphan'],
+      gitUrl: map['git_url'],
+      ciUsed: map['ci_used'],
+      ciUrl: map['ci_url'],
+      ciApiKey: map['ci_api_key'],
+      workspaceRefId: map['workspace_ref_id'],
+      orgRefId: map['org_ref_id'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'org_id': orgId,
-      'org_name': orgName,
-      'org_code': orgCode,
-      'org_desc': orgDesc,
-      'org_start_date': orgStartDate.toIso8601String(),
-      'org_end_date': orgEndDate.toIso8601String(),
-      'status': status,
-      'created_by': createdBy,
-      'updated_by': updatedBy,
-      'created_on': createdOn.toIso8601String(),
-      'updated_on': updatedOn.toIso8601String(),
+      'project_id': projectId,
+      'project_name': projectName,
+      'is_orphan': isOrphan,
+      'git_url': gitUrl,
+      'ci_used': ciUsed,
+      'ci_url': ciUrl,
+      'ci_api_key': ciApiKey,
+      'workspace_ref_id': workspaceRefId,
+      'org_ref_id': orgRefId,
     };
   }
 
   @override
   String toString() {
-    return 'Organisation{orgId: $orgId, orgName: $orgName, orgCode: $orgCode, orgDesc: $orgDesc, orgStartDate: $orgStartDate, orgEndDate: $orgEndDate, status: $status, createdBy: $createdBy, updatedBy: $updatedBy, createdOn: $createdOn, updatedOn: $updatedOn}';
+    return 'Project{projectId: $projectId, projectName: $projectName, isOrphan: $isOrphan, gitUrl: $gitUrl, ciUsed: $ciUsed, ciUrl: $ciUrl, ciApiKey: $ciApiKey, workspaceRefId: $workspaceRefId, orgRefId: $orgRefId}';
   }
 }
 
-List<Organisation> organisationFromJson(String jsonData) {
+List<Project> projectFromJson(String jsonData) {
   final data = json.decode(jsonData);
-  return List<Organisation>.from(data.map((item) => Organisation.fromJson(item)));
+  return List<Project>.from(data.map((item) => Project.fromJson(item)));
 }
 
-String organisationToJson(Organisation data) {
+String projectToJson(Project data) {
   final jsonData = data.toJson();
   return json.encode(jsonData);
 }

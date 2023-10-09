@@ -1,76 +1,60 @@
 import 'dart:convert';
 
-class Organisation {
-  int orgId;
-  String orgName; 
-  String orgCode;
-  String orgDesc;
-  DateTime orgStartDate;
-  DateTime orgEndDate;
-  String status;
-  String createdBy;
-  String updatedBy;
-  DateTime createdOn;
-  DateTime updatedOn;
+class Workspace {
+  int workspaceId;
+  String workspaceName;
+  String workspacePath;
+  String devMacAddress;
+  String devOs;
+  bool isOrphan;
+  int userRefId;
 
-  Organisation({
-    this.orgId = 0,
-    required this.orgName, 
-    this.orgCode = '',
-    this.orgDesc = '',
-    required this.orgStartDate,
-    required this.orgEndDate,
-    this.status = '',
-    this.createdBy = '',
-    this.updatedBy = '',
-    required this.createdOn,
-    required this.updatedOn,
+  Workspace({
+    this.workspaceId = 0,
+    required this.workspaceName,
+    required this.workspacePath,
+    required this.devMacAddress,
+    required this.devOs,
+    this.isOrphan = false,
+    this.userRefId = 0,
   });
 
-  factory Organisation.fromJson(Map<String, dynamic> map) {
-    return Organisation(
-      orgId: map['org_id'],
-      orgName: map['org_name'],
-      orgCode: map['org_code'],
-      orgDesc: map['org_desc'],
-      orgStartDate: DateTime.parse(map['org_start_date']),
-      orgEndDate: DateTime.parse(map['org_end_date']),
-      status: map['status'],
-      createdBy: map['created_by'],
-      updatedBy: map['updated_by'],
-      createdOn: DateTime.parse(map['created_on']),
-      updatedOn: DateTime.parse(map['updated_on']),
+  factory Workspace.fromJson(Map<String, dynamic> map) {
+    return Workspace(
+      workspaceId: map['workspace_id'],
+      workspaceName: map['workspace_name'],
+      workspacePath: map['workspace_path'],
+      devMacAddress: map['dev_mac_address'],
+      devOs: map['dev_os'],
+      isOrphan: map['is_orphan'],
+      userRefId: map['user_ref_id'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'org_id': orgId,
-      'org_name': orgName,
-      'org_code': orgCode,
-      'org_desc': orgDesc,
-      'org_start_date': orgStartDate.toIso8601String(),
-      'org_end_date': orgEndDate.toIso8601String(),
-      'status': status,
-      'created_by': createdBy,
-      'updated_by': updatedBy,
-      'created_on': createdOn.toIso8601String(),
-      'updated_on': updatedOn.toIso8601String(),
+      'workspace_id': workspaceId,
+      'workspace_name': workspaceName,
+      'workspace_path': workspacePath,
+      'dev_mac_address': devMacAddress,
+      'dev_os': devOs,
+      'is_orphan': isOrphan,
+      'user_ref_id': userRefId,
     };
   }
 
   @override
   String toString() {
-    return 'Organisation{orgId: $orgId, orgName: $orgName, orgCode: $orgCode, orgDesc: $orgDesc, orgStartDate: $orgStartDate, orgEndDate: $orgEndDate, status: $status, createdBy: $createdBy, updatedBy: $updatedBy, createdOn: $createdOn, updatedOn: $updatedOn}';
+    return 'Workspace{workspaceId: $workspaceId, workspaceName: $workspaceName, workspacePath: $workspacePath, devMacAddress: $devMacAddress, devOs: $devOs, isOrphan: $isOrphan, userRefId: $userRefId}';
   }
 }
 
-List<Organisation> organisationFromJson(String jsonData) {
+List<Workspace> workspaceFromJson(String jsonData) {
   final data = json.decode(jsonData);
-  return List<Organisation>.from(data.map((item) => Organisation.fromJson(item)));
+  return List<Workspace>.from(data.map((item) => Workspace.fromJson(item)));
 }
 
-String organisationToJson(Organisation data) {
+String workspaceToJson(Workspace data) {
   final jsonData = data.toJson();
   return json.encode(jsonData);
 }
