@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/workspace.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Harbinger',
       home: LoginScreen(),
     );
   }
 }
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -27,18 +29,18 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor:Color.fromARGB(255, 199, 230, 238),
+        backgroundColor: const Color.fromARGB(255, 199, 230, 238),
         body: Stack(
           children: [
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(130, 50, 40, 0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(130, 50, 40, 0),
                         child: Text(
                           'Your own automation copilot',
                           style: TextStyle(
@@ -48,10 +50,10 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 100),
+                      const SizedBox(height: 100),
                       Padding(
                         padding: const EdgeInsets.only(left: 60),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           height: 400,
                           child: Image.asset('images/loginpage.png'),
@@ -68,37 +70,55 @@ class LoginScreen extends StatelessWidget {
               child: Container(
                 width: 600,
                 height: 700,
-                decoration: BoxDecoration(
-                  color: Colors.white,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 224, 233, 235),
                   boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      offset: Offset(0, 3),
-                    ),
+                    // BoxShadow(
+                    //   // color: Colors.black.withOpacity(0.2),
+                    //   spreadRadius: 5,
+                    //   blurRadius: 10,
+                    //   offset: Offset(0, 3),
+                    // ),
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(100.0),
+                  padding: const EdgeInsets.fromLTRB(120, 40, 70, 10),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         // Added a container to hold the "Harbinger" and "Login" text
                         child: Column(
                           children: [
-                            
-                            Image.asset(
-                            'images/l.png',
-                            width: 200, // Adjust the width as needed
-                            height: 100, // Adjust the height as needed
-                          ),
-                            
-                          
-                            SizedBox(height: 20),
-                            Text(
-                              'Login',
+                            Stack(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 1, top: 0),
+                                  child: Image.asset(
+                                    'images/l.png',
+                                    width: 150, // Adjust the width as needed
+                                    height: 70, // Adjust the height as needed
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 102, top: 26),
+                                  child: Container(
+                                    child: const Text(
+                                      'arbinger',
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 23, 141, 180),
+                                          fontSize: 39),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 100),
+                            const Text(
+                              ' ',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -108,25 +128,27 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildInputField(
                         labelText: 'Username',
                         icon: Icons.email_outlined,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildInputField(
                         labelText: 'Password',
                         icon: Icons.password,
                         obscureText: true,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          _navigateToHarbinger(context); // Navigate to Harbinger class
+                          _navigateToHarbinger(
+                              context); // Navigate to Harbinger class
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 174, 189, 227),
-                          padding: EdgeInsets.symmetric(
+                          backgroundColor:
+                              const Color.fromARGB(255, 179, 222, 233),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 40.0,
                             vertical: 15.0,
                           ),
@@ -134,23 +156,23 @@ class LoginScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Login',
                           style: TextStyle(
-                            color: Color(0xFF384289),
+                            color: Color.fromARGB(255, 7, 39, 47),
                             fontSize: 18,
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         "Do not have a login ID? Please reach out to us at",
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 16,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "harbinger@feuji.com",
                         style: TextStyle(
                           color: Color(0xffFF8303),
@@ -176,8 +198,9 @@ class LoginScreen extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Color(0xFF384289)),
-        prefixIcon: icon != null ? Icon(icon, color: Color(0xFF384289)) : null,
+        labelStyle: const TextStyle(color: Color(0xFF384289)),
+        prefixIcon:
+            icon != null ? Icon(icon, color: const Color(0xFF384289)) : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
