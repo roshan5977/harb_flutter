@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/screens/login_screen.dart';
+import 'package:harbinger_flutter/screens/super_admin/super_admin_createorg.dart';
+import 'package:harbinger_flutter/screens/super_admin/super_admin_organisations.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -79,17 +81,19 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Dashboard'),
+                      icon: Icon(Icons.dashboard), label: 'Dashboard'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: 'Organisation'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.feed), label: 'create Organization'),
+                      icon: Icon(Icons.create), label: 'create Organization'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.view_agenda), label: 'Projects'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.report), label: 'Analytics'),
+                      icon: Icon(Icons.analytics), label: 'Analytics'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: 'settings'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.logout), label: 'logout'),
                 ],
               )
             : null,
@@ -101,15 +105,21 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
-                    if (index == 1) {
-                      // Push the OrganisationScreen page to the middle
-
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    }
+                    // if (index == 2) {
+                    //   // Push the OrganisationScreen page to the middle
+                    //   Navigator.of(context).pushReplacement(
+                    //     MaterialPageRoute(
+                    //       builder: (context) => OrganisationScreen(),
+                    //     ),
+                    //   );
+                    // } else if (index == 3) {
+                    //   // Push the OrganisationScreen page to the middle
+                    //   Navigator.of(context).pushReplacement(
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const CreateOrganisation(),
+                    //     ),
+                    //   );
+                    // }
                   });
                 },
                 selectedIndex: _selectedIndex,
@@ -139,6 +149,10 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                     label: Text('settings'),
                   ),
                   NavigationRailDestination(
+                    icon: Icon(Icons.logout),
+                    label: Text('Logout'),
+                  ),
+                  NavigationRailDestination(
                     icon: Padding(
                       padding: EdgeInsets.all(10.0),
                       child: CircleAvatar(
@@ -162,6 +176,17 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 ),
                 unselectedLabelTextStyle: const TextStyle(),
               ),
+            Expanded(
+              // This will display the OrganisationScreen content on top
+              child: Stack(
+                children: [
+                  // Display OrganisationScreen content when index is 2
+                  if (_selectedIndex == 1) const OrganisationScreen(),
+                  // Display CreateOrganisation content when index is 3
+                  if (_selectedIndex == 2) const CreateOrganisation(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

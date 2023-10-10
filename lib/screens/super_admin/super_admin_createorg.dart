@@ -3,8 +3,6 @@ import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-
-
 class CreateOrganisation extends StatefulWidget {
   const CreateOrganisation({Key? key}) : super(key: key);
 
@@ -47,15 +45,15 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Save'),
-          content: Text('Do you want to save the organisation details?'),
+          title: const Text('Confirm Save'),
+          content: const Text('Do you want to save the organisation details?'),
           actions: [
             TextButton(
               onPressed: () {
                 // Close the alert dialog
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -65,13 +63,13 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                 // Navigate to the "addusers" page
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AddUsers(),
+                    builder: (context) => const AddUsers(),
                   ),
                 );
 
-               // Navigator.of(context).pop(); // Close the alert dialog
+                // Navigator.of(context).pop(); // Close the alert dialog
               },
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -80,7 +78,8 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
   }
 
   Future<void> _pickImage() async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _selectedImage = pickedImage;
@@ -121,11 +120,8 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Organisation'),
-      ),
       body: Padding(
-        padding: EdgeInsets.all(40.0),
+        padding: const EdgeInsets.all(40.0),
         child: Row(
           children: [
             Expanded(
@@ -137,7 +133,7 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               flex: 2,
               child: Center(
@@ -146,39 +142,46 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                   children: [
                     TextField(
                       controller: _orgNameController,
-                      decoration: InputDecoration(labelText: 'Enter Organization Name'),
+                      decoration: const InputDecoration(
+                          labelText: 'Enter Organization Name'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: _orgCodeController,
-                      decoration: InputDecoration(labelText: 'Enter Organization Code'),
+                      decoration: const InputDecoration(
+                          labelText: 'Enter Organization Code'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: _orgDescController,
-                      decoration: InputDecoration(labelText: 'Enter Organization Description'),
+                      decoration: const InputDecoration(
+                          labelText: 'Enter Organization Description'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     GestureDetector(
                       onTap: _pickImage,
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 20), // Add margin to create spacing
+                        margin: const EdgeInsets.only(
+                            bottom: 20), // Add margin to create spacing
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
                           border: Border.all(color: Colors.grey),
                         ),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo, size: 50, color: Colors.grey),
-                            Text('Upload Company Logo', textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+                            Icon(Icons.add_a_photo,
+                                size: 50, color: Colors.grey),
+                            Text('Upload Company Logo',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 20), // Add space here
+                    const SizedBox(height: 20), // Add space here
                     Row(
                       children: [
                         Expanded(
@@ -190,15 +193,21 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                                 onTap: () => _selectStartDate(context),
                                 child: AbsorbPointer(
                                   child: TextField(
-                                    controller: TextEditingController(text: _startDate?.toLocal().toString().split(' ')[0] ?? ''),
-                                    decoration: InputDecoration(labelText: 'Select Start Date'),
+                                    controller: TextEditingController(
+                                        text: _startDate
+                                                ?.toLocal()
+                                                .toString()
+                                                .split(' ')[0] ??
+                                            ''),
+                                    decoration: const InputDecoration(
+                                        labelText: 'Select Start Date'),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           flex: 1,
                           child: Column(
@@ -208,8 +217,14 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                                 onTap: () => _selectEndDate(context),
                                 child: AbsorbPointer(
                                   child: TextField(
-                                    controller: TextEditingController(text: _endDate?.toLocal().toString().split(' ')[0] ?? ''),
-                                    decoration: InputDecoration(labelText: 'Select End Date'),
+                                    controller: TextEditingController(
+                                        text: _endDate
+                                                ?.toLocal()
+                                                .toString()
+                                                .split(' ')[0] ??
+                                            ''),
+                                    decoration: const InputDecoration(
+                                        labelText: 'Select End Date'),
                                   ),
                                 ),
                               ),
@@ -218,11 +233,11 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20), // Add space here
+                    const SizedBox(height: 20), // Add space here
                     Center(
                       child: ElevatedButton(
                         onPressed: _saveAndPrint,
-                        child: Text('Save Organisation'),
+                        child: const Text('Save Organisation'),
                       ),
                     ),
                   ],
@@ -235,4 +250,3 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
     );
   }
 }
-
