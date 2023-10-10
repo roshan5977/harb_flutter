@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harbinger_flutter/screens/super_admin/super_admin_register_organisation.dart';
+import 'package:harbinger_flutter/screens/super_admin/super_admin_createorg.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
