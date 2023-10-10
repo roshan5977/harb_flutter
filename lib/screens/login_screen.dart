@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harbinger_flutter/models/project_admin_model.dart';
+
 import 'package:harbinger_flutter/screens/org_admin_screen.dart';
 import 'package:harbinger_flutter/screens/projectadmin_screen.dart';
 import 'package:harbinger_flutter/screens/projectmember_screen.dart';

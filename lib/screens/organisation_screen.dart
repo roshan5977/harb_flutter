@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Organisation App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -26,13 +27,12 @@ class OrganisationScreen extends StatefulWidget {
 
 class _OrganisationScreenState extends State<OrganisationScreen> {
   late ApiService apiService;
-  List<Organisation>? organisations; // Store organisations here
-
+  List<Organisation>? organisations; 
   @override
   void initState() {
     super.initState();
     apiService = ApiService();
-    fetchOrganisations(); // Fetch organisations on init
+    fetchOrganisations(); 
   }
 
   final String baseUrl = "http://localhost:8000";
@@ -115,16 +115,14 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
                         if (result == "Status changed successfully") {
                       
                           setState(() {
-                            // Update only the status of the specific organisation
+                          
                             organisation.status = newStatus;
                           });
                         } else {
-                          // Handle failure
-                          // You can show an error message or take appropriate action
+                         
                         }
                       } catch (e) {
-                        // Handle exception
-                        // You can show an error message or take appropriate action
+                       
                       }
                     },
                   ),
@@ -132,7 +130,7 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
                    DataCell(
                 TextButton(
                   onPressed: () {
-                    // Navigate to the NextScreen and pass the orgId
+                 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
