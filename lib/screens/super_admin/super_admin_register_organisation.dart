@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harbinger_flutter/add_users.dart';
+import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
