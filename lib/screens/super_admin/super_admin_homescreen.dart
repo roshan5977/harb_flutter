@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/screens/login_screen.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -100,6 +101,15 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
+                    if (index == 1) {
+                      // Push the OrganisationScreen page to the middle
+
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    }
                   });
                 },
                 selectedIndex: _selectedIndex,
@@ -136,10 +146,10 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 18,
+                          backgroundImage: NetworkImage(
+                            'https://example.com/your_profile_image.jpg',
+                          ),
                           child: Icon(Icons.person),
-                          // backgroundImage: NetworkImage(
-                          //   'https://example.com/your_profile_image.jpg',
-                          // ),
                         ),
                       ),
                     ),
