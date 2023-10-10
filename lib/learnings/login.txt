@@ -1,0 +1,144 @@
+
+
+
+/**futurebuilder vs set state for handle asynchronous operations***/
+
+The choice between using FutureBuilder and an imperative approach with setState depends on your specific use case and coding style preferences. Both approaches have their advantages and disadvantages.
+
+Here are some considerations to help you decide which one might be better for your situation:
+
+FutureBuilder:
+
+Declarative: FutureBuilder is a more declarative approach, meaning it aligns with the Flutter framework's style of building UI based on the state. It's a clean and concise way to handle asynchronous operations in your UI.
+
+Separation of Concerns: It separates the UI logic from the asynchronous logic, making your code more organized and easier to understand. Each FutureBuilder can focus on one specific asynchronous operation.
+
+Immutable Widgets: It works well with immutable widgets because it doesn't involve changing the state of a StatefulWidget.
+
+Imperative Approach with setState:
+
+Control: Using setState gives you more fine-grained control over UI updates. You can update the UI at any point within your build method based on your logic, not just when an async operation completes.
+
+Flexibility: In complex scenarios where you need to orchestrate multiple asynchronous operations or perform UI updates at specific points during the async flow, an imperative approach can offer more flexibility.
+
+Synchronous Operations: For simple cases where the async operation is quick and doesn't require complex handling, using setState might be more straightforward.
+
+In general, for simple cases where you have a single asynchronous operation and you want to keep your code concise and declarative, FutureBuilder is a good choice. It aligns well with Flutter's philosophy of reactive UI.
+
+However, if your app initialization involves more complex logic, multiple async operations, or requires precise control over when the UI updates, an imperative approach with setState can be more suitable.
+
+
+FutureBuilder<bool>(
+  future: MySharedPref.isLoggedin(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      return const ErrorScreen();
+    } else if (snapshot.data == true) {
+      return FutureBuilder<String>(
+        future: MySharedPref.getRole(),
+        builder: (context, roleSnapshot) {
+          if (roleSnapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (roleSnapshot.hasError) {
+            return const ErrorScreen();
+          } else {
+            Navigation.navigateToHarbinger(context, roleSnapshot.data!);
+            return Container();
+          }
+        },
+      );
+    } else {
+      return const LoginScreen();
+    }
+  },
+)
+FutureBuilder<bool>: This line creates a FutureBuilder widget that will handle the asynchronous operation returning a boolean value. In your case, it checks whether the user is logged in.
+
+future: MySharedPref.isLoggedin(): Here, you specify the asynchronous operation you want to perform. MySharedPref.isLoggedin() is a function that returns a Future<bool> indicating whether the user is logged in.
+
+builder: (context, snapshot) {: This is the builder function that will be called when the future is completed. It takes two arguments: the BuildContext and a AsyncSnapshot<bool> called snapshot. The snapshot contains the result or error of the asynchronous operation.
+
+if (snapshot.connectionState == ConnectionState.waiting) {: This line checks if the connection state of the snapshot is ConnectionState.waiting, indicating that the asynchronous operation is still in progress. If so, it returns a CircularProgressIndicator, which is a loading spinner widget.
+
+else if (snapshot.hasError) {: This checks if there was an error during the asynchronous operation. If an error occurred, it returns an ErrorScreen widget (you should replace this with your error handling widget).
+
+else if (snapshot.data == true) {: If the asynchronous operation completed without error and returned true, it means the user is logged in. In this case, it starts another FutureBuilder for fetching the user's role.
+
+future: MySharedPref.getRole(): This sets up another asynchronous operation to fetch the user's role.
+
+The inner FutureBuilder follows a similar pattern as the outer one, checking for loading, errors, and a successful result of the role retrieval.
+
+Navigation.navigateToHarbinger(context, roleSnapshot.data!);: If the role retrieval is successful, it calls the navigateToHarbinger method to navigate to the appropriate screen based on the user's role.
+
+return Container();: After navigation, it returns an empty Container() as a placeholder. This is because you've already navigated, and you don't want to render anything on this screen.
+
+else { return const LoginScreen(); }: If the user is not logged in (the original asynchronous operation returns false), it returns the LoginScreen.
+
+This code structure allows you to handle asynchronous operations gracefully, showing loading indicators or error screens as necessary and navigating to different screens based on the result of the asynchronous operations.
+
+
+
+
+
+
+
+
+you can handle asynchronous operations in a more imperative way without using FutureBuilder. One alternative approach is to use an async function within the build method and update the state of a StatefulWidget when the asynchronous operation completes. Here's an example:
+
+dart
+Copy code
+import 'package:flutter/material.dart';
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLoading = true;
+   @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    final isLoggedIn = await MySharedPref.isLoggedin();
+
+    if (isLoggedIn) {
+      final role = await MySharedPref.getRole();
+      if (role != null) {
+        Navigation.navigateToHarbinger(context, role);
+      }
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+   @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Harbinger',
+      home: isLoading
+          ? const CircularProgressIndicator() // Show loading indicator
+          : const LoginScreen(), // Show login screen when initialization is complete
+    );
+  }
+}
+
+
+In this approach:
+
+We use a _MyAppState class, which is a State of MyApp. We initialize the app's state with isLoading set to true.
+
+In the initState method, we call _initializeApp, which contains the asynchronous logic to check if the user is logged in and navigate accordingly. When the logic is completed, we set isLoading to false using setState.
+
+In the build method, we conditionally display either a loading indicator or the LoginScreen based on the value of isLoading. This allows us to control the UI rendering based on the state of the asynchronous operation.
+
+This approach provides more control over the UI rendering and can be useful when you need to perform complex asynchronous operations during app initialization.

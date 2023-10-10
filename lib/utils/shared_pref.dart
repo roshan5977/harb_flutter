@@ -24,6 +24,9 @@ class MySharedPref extends StatelessWidget {
       final tokenData = jsonDecode(
           ascii.decode(base64.decode(base64.normalize(token.split(".")[1]))));
       final int expirySeconds = tokenData['exp'];
+      final String role = tokenData['role'];
+      //seting the role
+      sharedPreferences.setString("role", role);
 
       // Get the current time in seconds since the epoch
       final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -31,9 +34,10 @@ class MySharedPref extends StatelessWidget {
       // Check if the token is expired
       if (currentTime < expirySeconds) {
         return true; // Token is valid
+      } else {
+        sharedPreferences.remove("token"); //expired token removed.
       }
     }
-
     return false; // Token is invalid or not found
   }
 
@@ -43,24 +47,35 @@ class MySharedPref extends StatelessWidget {
     });
   }
 
-  static setUser(User user) async {
+  static Future<String?> getToken() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    final userJson = jsonEncode(
-        user.toJson()); // Assuming your User model has a toJson() method.
-    sharedPreferences.setString("user", userJson);
+    final token = sharedPreferences.getString("token");
+    return token;
+  }
+   static Future<String?> getRole() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final role = sharedPreferences.getString("role");
+    return role;
   }
 
-  static Future<User?> getUser() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    final userJson = sharedPreferences.getString("user");
-    if (userJson != null) {
-      final Map<String, dynamic> userMap = jsonDecode(userJson);
-      final User user = User.fromJson(
-          userMap); // Assuming your User model has a fromJson() constructor.
-      return user;
-    }
-    return null;
-  }
+  // static setUser(User user) async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   final userJson = jsonEncode(
+  //       user.toJson()); // Assuming your User model has a toJson() method.
+  //   sharedPreferences.setString("user", userJson);
+  // }
+
+  // static Future<User?> getUser() async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   final userJson = sharedPreferences.getString("user");
+  //   if (userJson != null) {
+  //     final Map<String, dynamic> userMap = jsonDecode(userJson);
+  //     final User user = User.fromJson(
+  //         userMap); // Assuming your User model has a fromJson() constructor.
+  //     return user;
+  //   }
+  //   return null;
+  // }
 }
 
 
