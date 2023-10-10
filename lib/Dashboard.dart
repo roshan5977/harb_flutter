@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/register_organisation.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -32,7 +33,12 @@ class OrganizationScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add your logic to create a new organization here
+               Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateOrganisation(),
+      ),
+    );
               },
               child: Text('Create Organization'),
             ),
