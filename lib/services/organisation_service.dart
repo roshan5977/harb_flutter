@@ -18,6 +18,31 @@ class ApiService {
       throw Exception('Failed to load organisations');
     }
   }
+ Future<Organisation> createOrganisation(Organisation newOrg) async {
+  final Uri url = Uri.parse("$baseUrl/organisation/create/");
+  final Map<String, dynamic> orgData = newOrg.toJson(); // Assuming you have a toJson method in your Organisation model
+
+  final response = await http.post(
+    url,
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(orgData),
+  );
+
+  // Print the response for debugging purposes
+  print("API Response: ${response.statusCode} - ${response.body}");
+
+  if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    
+    return Organisation.fromJson(jsonData);
+  } else {
+    throw Exception('Failed to create a new organization');
+  }
+}
+
+
 
   // Future<String> changeStatusOfOrganisation(int orgId) async {
   //   final Uri url = Uri.parse("$baseUrl/organisation/status/$orgId/");
