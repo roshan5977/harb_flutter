@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:harbinger_flutter/screens/super_admin/super_admin_createorg.dart';
-import 'package:harbinger_flutter/screens/super_admin/super_admin_organisations.dart';
-
 enum AppThemeMode { light, dark }
 
-class SuperAdminHarbinger extends StatelessWidget {
-  const SuperAdminHarbinger({Key? key}) : super(key: key);
+class Harbinger extends StatelessWidget {
+  const Harbinger({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SuperAdminHomeScreen(),
+      home: const HomeScreen(),
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
@@ -20,22 +17,22 @@ class SuperAdminHarbinger extends StatelessWidget {
   }
 }
 
-class SuperAdminHomeScreen extends StatefulWidget {
-  const SuperAdminHomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _SuperAdminHomeScreenState createState() => _SuperAdminHomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
+  
   int _selectedIndex = 0;
   AppThemeMode _currentThemeMode = AppThemeMode.light;
 
   void _toggleTheme() {
     setState(() {
-      _currentThemeMode = _currentThemeMode == AppThemeMode.light
-          ? AppThemeMode.dark
-          : AppThemeMode.light;
+      _currentThemeMode =
+          _currentThemeMode == AppThemeMode.light ? AppThemeMode.dark : AppThemeMode.light;
     });
   }
 
@@ -49,11 +46,10 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFFFD700),
+          backgroundColor:Color.fromARGB(255, 199, 230, 238),
           title: const Center(
             child: Text(
-              "Welcome super admin",
-              style: TextStyle(color: Colors.black),
+              "Harbinger",style: TextStyle(color: Colors.black),
             ),
           ),
           actions: [
@@ -81,19 +77,15 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.dashboard), label: 'Dashboard'),
+                      icon: Icon(Icons.home), label: 'WorkspaceS'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Organisation'),
+                      icon: Icon(Icons.feed), label: 'ProjectS'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.create), label: 'create Organization'),
+                      icon: Icon(Icons.view_agenda), label: 'TestPlan'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.view_agenda), label: 'Projects'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.analytics), label: 'Analytics'),
-                  BottomNavigationBarItem(
+                      icon: Icon(Icons.report), label: 'Reports'),
+                       BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: 'settings'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.logout), label: 'logout'),
                 ],
               )
             : null,
@@ -101,69 +93,47 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color(0xFFFFD700),
+                backgroundColor:Color.fromARGB(255, 199, 230, 238),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
-                    // if (index == 2) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => OrganisationScreen(),
-                    //     ),
-                    //   );
-                    // } else if (index == 3) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const CreateOrganisation(),
-                    //     ),
-                    //   );
-                    // }
                   });
                 },
                 selectedIndex: _selectedIndex,
                 destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
-                    label: Text('Dashboard'),
+                    label: Text('WorkspaceS'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.feed),
-                    label: Text('Organisation'),
+                    label: Text('ProjectS'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.view_agenda),
-                    label: Text('create Organization'),
+                    label: Text('Testplan'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.report),
-                    label: Text('Projects'),
+                    label: Text('Reports'),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.settings),
-                    label: Text('Analytics'),
-                  ),
-                  NavigationRailDestination(
+                    NavigationRailDestination(
                     icon: Icon(Icons.settings),
                     label: Text('settings'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.logout),
-                    label: Text('Logout'),
-                  ),
-                  NavigationRailDestination(
+                    
                     icon: Padding(
                       padding: EdgeInsets.all(10.0),
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
-                          radius: 18,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/your_profile_image.jpg',
-                          ),
                           child: Icon(Icons.person),
+                          radius: 18,
+                          // backgroundImage: NetworkImage(
+                          //   'https://example.com/your_profile_image.jpg',
+                          // ),
                         ),
                       ),
                     ),
@@ -176,17 +146,6 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 ),
                 unselectedLabelTextStyle: const TextStyle(),
               ),
-            Expanded(
-              // This will display the OrganisationScreen content on top
-              child: Stack(
-                children: [
-                  // Display OrganisationScreen content when index is 2
-                  if (_selectedIndex == 1) const OrganisationScreen(),
-                  // Display CreateOrganisation content when index is 3
-                  if (_selectedIndex == 2)  CreateOrganisation(),
-                ],
-              ),
-            ),
           ],
         ),
       ),

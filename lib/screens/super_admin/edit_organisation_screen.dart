@@ -62,20 +62,19 @@ class _EditOrganisationScreenState extends State<EditOrganisationScreen> {
   }
 
   void _saveChanges() {
-    // Get the updated values from the text controllers
+    
     String updatedName = orgNameController.text;
     String updatedCode = orgCodeController.text;
     String updatedDesc = orgDescController.text;
 
-    // Update the Organisation object with the new values
+   
     widget.organisation.orgName = updatedName;
     widget.organisation.orgCode = updatedCode;
     widget.organisation.orgDesc = updatedDesc;
 
-    // Call the onSave callback to save changes
+    
     widget.onSave(widget.organisation);
 
-    // Close the edit screen
     Navigator.pop(context);
   }
 
