@@ -49,7 +49,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+          backgroundColor: const Color(0xFFFFD700),
           title: const Center(
             child: Text(
               "Welcome super admin",
@@ -101,7 +101,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+                backgroundColor: const Color(0xFFFFD700),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;

@@ -7,9 +7,9 @@ class AuthorizationInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    print(authToken);
     // Add the authorization header with the token to the request
     options.headers['Authorization'] = 'Bearer $authToken';
     super.onRequest(options, handler);
   }
 }
-

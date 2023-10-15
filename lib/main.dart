@@ -9,8 +9,8 @@ void main() async {
   final dio = Dio();
   runApp(const MyApp());
   final token = await MySharedPref.getToken(); // Retrieve the token
-
   if (token != null) {
+    print("main token$token");
     dio.interceptors
         .add(AuthorizationInterceptor(token)); // Add interceptor with token
   }
