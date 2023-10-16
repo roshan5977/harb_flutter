@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:harbinger_flutter/screens/super_admin/super_admin_createorg.dart';
 import 'package:harbinger_flutter/screens/super_admin/super_admin_organisations.dart';
+import 'package:harbinger_flutter/screens/super_admin/test.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -49,7 +50,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+          backgroundColor: const Color(0xFFFFD700),
           title: const Center(
             child: Text(
               "Welcome super admin",
@@ -101,25 +102,10 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+                backgroundColor: const Color(0xFFFFD700),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
-                    // if (index == 2) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => OrganisationScreen(),
-                    //     ),
-                    //   );
-                    // } else if (index == 3) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const CreateOrganisation(),
-                    //     ),
-                    //   );
-                    // }
                   });
                 },
                 selectedIndex: _selectedIndex,
@@ -183,7 +169,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                   // Display OrganisationScreen content when index is 2
                   if (_selectedIndex == 1) const OrganisationScreen(),
                   // Display CreateOrganisation content when index is 3
-                  if (_selectedIndex == 2)  CreateOrganisation(),
+                  if (_selectedIndex == 2) const CreateOrganisation(),
                 ],
               ),
             ),
