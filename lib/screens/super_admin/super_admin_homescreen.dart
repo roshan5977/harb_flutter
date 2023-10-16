@@ -105,21 +105,6 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
-                    // if (index == 2) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => OrganisationScreen(),
-                    //     ),
-                    //   );
-                    // } else if (index == 3) {
-                    //   // Push the OrganisationScreen page to the middle
-                    //   Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const CreateOrganisation(),
-                    //     ),
-                    //   );
-                    // }
                   });
                 },
                 selectedIndex: _selectedIndex,
@@ -183,7 +168,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                   // Display OrganisationScreen content when index is 2
                   if (_selectedIndex == 1) const OrganisationScreen(),
                   // Display CreateOrganisation content when index is 3
-                  if (_selectedIndex == 2)  CreateOrganisation(),
+                  if (_selectedIndex == 2) CreateOrganisation(),
                 ],
               ),
             ),

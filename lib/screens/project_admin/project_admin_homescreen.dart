@@ -25,14 +25,14 @@ class ProjectAdminHomeScreen extends StatefulWidget {
 }
 
 class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
-  
   int _selectedIndex = 0;
   AppThemeMode _currentThemeMode = AppThemeMode.light;
 
   void _toggleTheme() {
     setState(() {
-      _currentThemeMode =
-          _currentThemeMode == AppThemeMode.light ? AppThemeMode.dark : AppThemeMode.light;
+      _currentThemeMode = _currentThemeMode == AppThemeMode.light
+          ? AppThemeMode.dark
+          : AppThemeMode.light;
     });
   }
 
@@ -46,10 +46,11 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor:Color.fromARGB(255, 199, 230, 238),
+          backgroundColor: const Color.fromARGB(255, 199, 230, 238),
           title: const Center(
             child: Text(
-              "Harbinger",style: TextStyle(color: Colors.black),
+              "Harbinger",
+              style: TextStyle(color: Colors.black),
             ),
           ),
           actions: [
@@ -84,7 +85,7 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                       icon: Icon(Icons.view_agenda), label: 'TestPlan'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.report), label: 'Reports'),
-                       BottomNavigationBarItem(
+                  BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: 'settings'),
                 ],
               )
@@ -93,7 +94,7 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor:Color.fromARGB(255, 199, 230, 238),
+                backgroundColor: const Color.fromARGB(255, 199, 230, 238),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -117,23 +118,22 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                     icon: Icon(Icons.report),
                     label: Text('Reports'),
                   ),
-                    NavigationRailDestination(
+                  NavigationRailDestination(
                     icon: Icon(Icons.settings),
                     label: Text('settings'),
                   ),
                   NavigationRailDestination(
-                    
                     icon: Padding(
                       padding: EdgeInsets.all(10.0),
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
-                          child: Icon(Icons.person),
                           radius: 18,
-                          // backgroundImage: NetworkImage(
-                          //   'https://example.com/your_profile_image.jpg',
-                          // ),
+                          backgroundImage: NetworkImage(
+                            'https://example.com/your_profile_image.jpg',
+                          ),
+                          child: Icon(Icons.person),
                         ),
                       ),
                     ),
