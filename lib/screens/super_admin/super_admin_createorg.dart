@@ -4,6 +4,8 @@ import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart
 import 'package:harbinger_flutter/services/organisation_service.dart';
 
 class CreateOrganisation extends StatefulWidget {
+  const CreateOrganisation({super.key});
+
   @override
   _CreateOrganisationState createState() => _CreateOrganisationState();
 }
@@ -73,17 +75,17 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Success"),
+          title: const Text("Success"),
           content: Text("Organization created: $orgName"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => AddUsers()),
-  );
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddUsers()),
+                );
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -97,14 +99,14 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Error"),
+          title: const Text("Error"),
           content: Text(errorMessage),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -115,9 +117,6 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Organisation'),
-      ),
       body: Row(
         children: <Widget>[
           Image.asset(
@@ -131,18 +130,22 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Enter Organisation Details', style: TextStyle(fontSize: 20)),
+                  const Text('Enter Organisation Details',
+                      style: TextStyle(fontSize: 20)),
                   TextField(
                     controller: _orgNameController,
-                    decoration: InputDecoration(labelText: 'Organization Name'),
+                    decoration:
+                        const InputDecoration(labelText: 'Organization Name'),
                   ),
                   TextField(
                     controller: _orgCodeController,
-                    decoration: InputDecoration(labelText: 'Organization Code'),
+                    decoration:
+                        const InputDecoration(labelText: 'Organization Code'),
                   ),
                   TextField(
                     controller: _orgDescController,
-                    decoration: InputDecoration(labelText: 'Organization Description'),
+                    decoration: const InputDecoration(
+                        labelText: 'Organization Description'),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,18 +154,22 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                         onTap: () => _selectStartDate(context),
                         child: Row(
                           children: <Widget>[
-                            Icon(Icons.calendar_today),
-                            Text(_startDate != null ? _startDate.toString() : 'Select Start Date'),
+                            const Icon(Icons.calendar_today),
+                            Text(_startDate != null
+                                ? _startDate.toString()
+                                : 'Select Start Date'),
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       InkWell(
                         onTap: () => _selectEndDate(context),
                         child: Row(
                           children: <Widget>[
-                            Icon(Icons.calendar_today),
-                            Text(_endDate != null ? _endDate.toString() : 'Select End Date'),
+                            const Icon(Icons.calendar_today),
+                            Text(_endDate != null
+                                ? _endDate.toString()
+                                : 'Select End Date'),
                           ],
                         ),
                       ),
@@ -170,7 +177,7 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                   ),
                   ElevatedButton(
                     onPressed: _createOrganisation,
-                    child: Text('Create Organisation'),
+                    child: const Text('Create Organisation'),
                   ),
                 ],
               ),
