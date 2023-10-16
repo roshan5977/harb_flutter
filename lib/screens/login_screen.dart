@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(248, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 199, 230, 238),
         body: Row(
           children: [
             const Carousel(),
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: MediaQuery.of(context).size.width * 0.4,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 221, 218, 218),
+                color: const Color.fromARGB(255, 255, 254, 254),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
