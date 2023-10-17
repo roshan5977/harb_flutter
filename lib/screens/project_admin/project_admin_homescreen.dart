@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_apitestingscreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_projectscreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_workspacescreen.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -49,7 +52,7 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
           backgroundColor: const Color.fromARGB(255, 199, 230, 238),
           title: const Center(
             child: Text(
-              "Harbinger",
+              "Project Admin",
               style: TextStyle(color: Colors.black),
             ),
           ),
@@ -78,15 +81,15 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'WorkspaceS'),
+                      icon: Icon(Icons.home), label: 'Workspace'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.feed), label: 'ProjectS'),
+                      icon: Icon(Icons.feed), label: 'Project'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.view_agenda), label: 'TestPlan'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.report), label: 'Reports'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.settings), label: 'settings'),
+                      icon: Icon(Icons.settings), label: 'ApiTesting'),
                 ],
               )
             : null,
@@ -120,7 +123,7 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.settings),
-                    label: Text('settings'),
+                    label: Text('ApiTesting'),
                   ),
                   NavigationRailDestination(
                     icon: Padding(
@@ -146,6 +149,18 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                 ),
                 unselectedLabelTextStyle: const TextStyle(),
               ),
+            Expanded(
+              // This will display the OrganisationScreen content on top
+              child: Stack(
+                children: [
+                  // Display OrganisationScreen content when index is 2
+                  if (_selectedIndex == 1) const WorkspaceScreenProjectAdmin(),
+                  // Display CreateOrganisation content when index is 3
+                  if (_selectedIndex == 2) const ProjectScreenProjectAdmin(),
+                  if (_selectedIndex == 5) const ApiTestingProjectAdmin(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

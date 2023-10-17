@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (context) {
             if (role.isEmpty) {
-              return const LoginScreen();
+              return const LoginContainer();
             } else if (role == AppRoles.superAdmin) {
               return const SuperAdminHomeScreen();
             } else if (role == AppRoles.orgAdmin) {
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
               return const ProjectMemberHomeScreen();
             } else {
               // Handle invalid roles or other cases
-              return const LoginScreen();
+              return const LoginContainer();
             }
           }
         });
@@ -155,15 +155,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Row(
           children: [
             const Carousel(),
             Container(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: MediaQuery.of(context).size.width * 0.407,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 254, 254),
+                color: const Color(0xFFFFD823),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -183,23 +183,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Stack(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 1, top: 0),
-                                child: Image.asset(
-                                  'images/l.png',
-                                  width: 150, // Adjust the width as needed
-                                  height: 70, // Adjust the height as needed
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 1, top: 0),
+                              //   child: Image.asset(
+                              //     'images/l.png',
+                              //     width: 150, // Adjust the width as needed
+                              //     height: 70, // Adjust the height as needed
+                              //   ),
+                              // ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 102, top: 26),
                                 child: Container(
                                   child: const Text(
-                                    'arbinger',
+                                    'Harbinger',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 23, 141, 180),
+                                        color: Color.fromARGB(255, 205, 121, 4),
                                         fontSize: 39),
                                   ),
                                 ),
@@ -428,7 +427,7 @@ class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * .6,
+      width: MediaQuery.of(context).size.width * .44,
       child: Column(
         children: [
           const SizedBox(
@@ -486,6 +485,99 @@ class CarouselItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.5,
         height: MediaQuery.of(context).size.height * 0.6,
         child: Lottie.asset(animationAsset),
+      ),
+    );
+  }
+}
+
+// class LoginContainer extends StatelessWidget {
+//   const LoginContainer({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         // Background Image
+
+//         Container(
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage(
+//                   'images/orangecover.jpg'), // Replace with your image path
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//         ),
+//         // Elevated LoginScreen
+//         Center(
+//           child: Container(
+//             margin: const EdgeInsets.all(46.0),
+//             padding: const EdgeInsets.all(.06),
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.circular(10.0),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.black.withOpacity(0.2),
+//                   spreadRadius: 5,
+//                   blurRadius: 7,
+//                   offset: const Offset(0, 1),
+//                 ),
+//               ],
+//             ),
+//             child: const LoginScreen(), // Replace with your LoginScreen widget
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+class LoginContainer extends StatelessWidget {
+  const LoginContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'images/orangecover.jpg', // Replace with your image path
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // Background Color
+          // Positioned.fill(
+          //   child: Container(
+          //     color: const Color.fromARGB(
+          //         255, 218, 163, 24), // Set your background color
+          //   ),
+          // ),
+          // Elevated LoginScreen
+          Center(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(116, 38, 116, 38),
+              padding: const EdgeInsets.all(.06),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
+              ),
+              child:
+                  const LoginScreen(), // Replace with your LoginScreen widget
+            ),
+          ),
+        ],
       ),
     );
   }

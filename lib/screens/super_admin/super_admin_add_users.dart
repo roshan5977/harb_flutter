@@ -1,233 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/models/user_model.dart';
+import 'package:harbinger_flutter/services/organisation_service.dart';
 
-class AddUsers extends StatefulWidget {
-  const AddUsers({Key? key}) : super(key: key);
+class UserRegistrationForm extends StatefulWidget {
+  final int orgId;
+  final int roleRefId;
+
+  const UserRegistrationForm({super.key, required this.orgId,required this.roleRefId});
 
   @override
-  State<AddUsers> createState() => _AddUsersState();
+  _UserRegistrationFormState createState() => _UserRegistrationFormState();
 }
 
-class _AddUsersState extends State<AddUsers> {
-  void _orgAdmin() {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Organisation Admin'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: firstNameController,
-              decoration: InputDecoration(labelText: 'First Name'),
-            ),
-            TextField(
-              controller: lastNameController,
-              decoration: InputDecoration(labelText: 'Last Name'),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Retrieve the entered values
-              String firstName = firstNameController.text;
-              String lastName = lastNameController.text;
-              String email = emailController.text;
-              String password = passwordController.text;
-
-              // Do something with the captured data, e.g., save it
-              print('First Name: $firstName');
-              print('Last Name: $lastName');
-              print('Email: $email');
-              print('Password: $password');
-
-              // Close the dialog
-              Navigator.of(context).pop();
-            },
-            child: Text('Register'),
-          ),
-        ],
-      );
-    },
+class _UserRegistrationFormState extends State<UserRegistrationForm> {
+  final ApiService apiService = ApiService();
+  final _formKey = GlobalKey<FormState>();
+  User user = User(
+    firstName: '',
+    lastName: '',
+    emailId: '',
+    password: '',
+    createdOn: DateTime.now(),
+    updatedOn: DateTime.now(),
+    lastLoggedIn: DateTime.now(),
   );
-}
-
- void _projectAdmin() {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Project Admin'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: firstNameController,
-              decoration: InputDecoration(labelText: 'First Name'),
-            ),
-            TextField(
-              controller: lastNameController,
-              decoration: InputDecoration(labelText: 'Last Name'),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Retrieve the entered values
-              String firstName = firstNameController.text;
-              String lastName = lastNameController.text;
-              String email = emailController.text;
-              String password = passwordController.text;
-
-              // Do something with the captured data, e.g., save it
-              print('First Name: $firstName');
-              print('Last Name: $lastName');
-              print('Email: $email');
-              print('Password: $password');
-
-              // Close the dialog
-              Navigator.of(context).pop();
-            },
-            child: Text('Register'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-  void _projectMembers() {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Project Members'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: firstNameController,
-              decoration: InputDecoration(labelText: 'First Name'),
-            ),
-            TextField(
-              controller: lastNameController,
-              decoration: InputDecoration(labelText: 'Last Name'),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Retrieve the entered values
-              String firstName = firstNameController.text;
-              String lastName = lastNameController.text;
-              String email = emailController.text;
-              String password = passwordController.text;
-
-              // Do something with the captured data, e.g., save it
-              print('First Name: $firstName');
-              print('Last Name: $lastName');
-              print('Email: $email');
-              print('Password: $password');
-
-              // Close the dialog
-              Navigator.of(context).pop();
-            },
-            child: Text('Register'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Users'),
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: _orgAdmin,
-              child: Text('Add Organisation Admin'),
-            ),
-            ElevatedButton(
-              onPressed: _projectAdmin,
-              child: Text('Add Project Admin'),
-            ),
-            ElevatedButton(
-              onPressed: _projectMembers,
-              child: Text('Add Project members'),
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(8.0),
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'First Name'),
+                onSaved: (value) => user.firstName = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Last Name'),
+                onSaved: (value) => user.lastName = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Email'),
+                onSaved: (value) => user.emailId = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  // You can add email validation here
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Password'),
+                onSaved: (value) => user.password = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+              ),
+                          Padding(
+                padding: const EdgeInsets.only(
+                    top: 16.0), // Add space at the top of the button
+                child: ElevatedButton(
+                  onPressed: () {
+                    final form = _formKey.currentState;
+                    if (form != null && form.validate()) {
+                      form.save();
+                      apiService.registerUser(widget.orgId, user,widget.roleRefId);
+                    }
+                  },
+                  child: const Text('Register'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

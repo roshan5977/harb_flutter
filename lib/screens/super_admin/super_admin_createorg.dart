@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organaisation_model.dart';
 import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart';
 import 'package:harbinger_flutter/services/organisation_service.dart';
+import 'package:intl/intl.dart';
 
 class CreateOrganisation extends StatefulWidget {
   const CreateOrganisation({super.key});
@@ -80,10 +81,10 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddUsers()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const AddUsers()),
+                // );
               },
               child: const Text("OK"),
             ),
@@ -113,106 +114,132 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
       },
     );
   }
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Center( // Center the form
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Center the form horizontally
-        children: <Widget>[
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+            // Center the form
+            child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center the form horizontally
+                children: <Widget>[
           Image.asset(
             'images/org.png',
             width: 500,
             height: double.infinity,
           ),
           Expanded(
-  child: Padding(
-    padding: const EdgeInsets.all(80.0), // Adjust the padding
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Center(
-  child: Text(
-    'Enter Organisation Details',
-    style: TextStyle(fontSize: 40,color: Color(0xFFF1E90FF)),
-   
-  ),
-),
-        SizedBox(height: 30), // Add spacing between the title and text fields
-        TextField(
-          controller: _orgNameController,
-          decoration: InputDecoration(
-            labelText: 'Organization Name',
-            // Increase text box size
-            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-          ),
-        ),
-        SizedBox(height: 30), // Add spacing between text fields
-        TextField(
-          controller: _orgCodeController,
-          decoration: InputDecoration(
-            labelText: 'Organization Code',
-            // Increase text box size
-            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-          ),
-        ),
-        SizedBox(height: 30), // Add spacing between text fields
-        TextField(
-          controller: _orgDescController,
-          decoration: InputDecoration(
-            labelText: 'Organization Description',
-            // Increase text box size
-            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-          ),
-        ),
-        SizedBox(height: 30), // Add spacing between text fields
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            InkWell(
-              onTap: () => _selectStartDate(context),
-              child: Row(
+            child: Padding(
+              padding: const EdgeInsets.all(80.0), // Adjust the padding
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Icon(Icons.calendar_today),
-                  Text(
-                    _startDate != null ? _startDate.toString() : 'Select Start Date',
-                    // Increase text size
-                    style: TextStyle(fontSize: 16),
+                  const Center(
+                    child: Text(
+                      'Enter Organisation Details',
+                      style: TextStyle(
+                          fontSize: 40, color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
                   ),
+                  const SizedBox(
+                      height:
+                          30), // Add spacing between the title and text fields
+                  TextField(
+                    controller: _orgNameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Organization Name',
+                      // Increase text box size
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 30), // Add spacing between text fields
+                  TextField(
+                    controller: _orgCodeController,
+                    decoration: const InputDecoration(
+                      labelText: 'Organization Code',
+                      // Increase text box size
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 30), // Add spacing between text fields
+                  TextField(
+                    controller: _orgDescController,
+                    decoration: const InputDecoration(
+                      labelText: 'Organization Description',
+                      // Increase text box size
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 30), // Add spacing between text fields
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _buildDateSelector(
+                        labelText: 'Start Date',
+                        date: _startDate,
+                        onTap: () => _selectStartDate(context),
+                      ),
+                      const SizedBox(height: 30),
+                      _buildDateSelector(
+                        labelText: 'End Date',
+                        date: _endDate,
+                        onTap: () => _selectEndDate(context),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 50),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _createOrganisation,
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(const Color(0xfff1e90ff)),
+                      ),
+                      child: const Text('Create Organisation'),
+                    ),
+                  )
                 ],
               ),
             ),
-            const SizedBox(height: 30),
-            InkWell(
-              onTap: () => _selectEndDate(context),
-              child: Row(
-                children: <Widget>[
-                  const Icon(Icons.calendar_today),
-                  Text(
-                    _endDate != null ? _endDate.toString() : 'Select End Date',
-                    // Increase text size
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 50),
-        Center(
-  child: ElevatedButton(
-    onPressed: _createOrganisation,
-    child: const Text('Create Organisation'),
-     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all( Color(0xFFF1E90FF)),
-    ),
-  ),
-)
-        
-      ],
-    ),
-  ),
-),
-     ]) ));
+          ),
+        ])));
+  }
 }
+
+Widget _buildDateSelector({
+  required String labelText,
+  DateTime? date,
+  void Function()? onTap,
+}) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        children: <Widget>[
+          const Icon(Icons.calendar_today),
+          const SizedBox(width: 8.0),
+          Text(
+            date != null ? DateFormat('yyyy-MM-dd').format(date) : labelText,
+            style: TextStyle(
+              fontSize: 16,
+              color: date != null ? Colors.black : Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organisation_remodel.dart';
+import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart';
 import 'package:harbinger_flutter/services/organisation_service.dart';
 
 class NextScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _NextScreenState extends State<NextScreen> {
       final apiService = ApiService();
       final organisationData =
           await apiService.getOrganisationWithRelations(widget.orgId);
+      print("organisationData$organisationData");
       return organisationData;
     } catch (error) {
       print('Error fetching data: $error');
@@ -55,8 +57,7 @@ class _NextScreenState extends State<NextScreen> {
             return Container(
               width: MediaQuery.of(context).size.width *
                   0.38, // Adjust the height as needed
-              height: MediaQuery.of(context).size.width *
-                  1,
+              height: MediaQuery.of(context).size.width * 1,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -107,17 +108,20 @@ class _NextScreenState extends State<NextScreen> {
                     ),
                     TextButton(
                       onPressed: () {
+                        _addUsers(2);
                         // Open the modal to add an organization admin
                         // You can implement the modal opening logic here
                       },
                       child: const Text('Add Organisation Admin'),
                     ),
                     const SizedBox(height: 8.0),
+                    // Text(organisationData.orgAdmins.toString()),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       // Display organisation admins here
+
                       children: organisationData.orgAdmins.map((admin) {
-                        return Text(admin.emailId ?? 'N/A');
+                        return Text(admin.emailId.toString() ?? 'N/A');
                       }).toList(),
                     ),
                     const SizedBox(height: 24.0),
@@ -128,6 +132,7 @@ class _NextScreenState extends State<NextScreen> {
                     ),
                     TextButton(
                       onPressed: () {
+                        _addUsers(3);
                         // Open the modal to add an organization admin
                         // You can implement the modal opening logic here
                       },
@@ -149,6 +154,7 @@ class _NextScreenState extends State<NextScreen> {
                     ),
                     TextButton(
                       onPressed: () {
+                        _addUsers(4);
                         // Open the modal to add an organization admin
                         // You can implement the modal opening logic here
                       },
@@ -177,6 +183,40 @@ class _NextScreenState extends State<NextScreen> {
           child: const Text('Close'),
         ),
       ],
+    );
+  }
+
+  void _addUsers(roleRefId) {
+    String user = "";
+    if (roleRefId == 2) {
+      user = "Organization Admin";
+    } else if (roleRefId == 3)
+      user = "Project Admin";
+    else if (roleRefId == 3) user = "Project Member";
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Add $user'),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+          content: SizedBox(
+            height: 350,
+            width: 300,
+            child:
+                UserRegistrationForm(orgId: widget.orgId, roleRefId: roleRefId),
+          ),
+        );
+      },
     );
   }
 }

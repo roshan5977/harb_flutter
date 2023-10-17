@@ -110,24 +110,6 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 },
                 selectedIndex: _selectedIndex,
                 destinations: const [
-
-                    NavigationRailDestination(
-                    icon: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/your_profile_image.jpg',
-                          ),
-                          child: Icon(Icons.person),
-                        ),
-                      ),
-                    ),
-                    label: Text('John Doe'),
-                  ),
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
                     label: Text('Dashboard'),
