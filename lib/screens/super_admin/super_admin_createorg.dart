@@ -113,11 +113,12 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
       },
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Center( // Center the form
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Center the form horizontally
         children: <Widget>[
           Image.asset(
             'images/org.png',
@@ -125,66 +126,93 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
             height: double.infinity,
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  child: Padding(
+    padding: const EdgeInsets.all(80.0), // Adjust the padding
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Center(
+  child: Text(
+    'Enter Organisation Details',
+    style: TextStyle(fontSize: 40,color: Color(0xFFF1E90FF)),
+   
+  ),
+),
+        SizedBox(height: 30), // Add spacing between the title and text fields
+        TextField(
+          controller: _orgNameController,
+          decoration: InputDecoration(
+            labelText: 'Organization Name',
+            // Increase text box size
+            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          ),
+        ),
+        SizedBox(height: 30), // Add spacing between text fields
+        TextField(
+          controller: _orgCodeController,
+          decoration: InputDecoration(
+            labelText: 'Organization Code',
+            // Increase text box size
+            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          ),
+        ),
+        SizedBox(height: 30), // Add spacing between text fields
+        TextField(
+          controller: _orgDescController,
+          decoration: InputDecoration(
+            labelText: 'Organization Description',
+            // Increase text box size
+            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          ),
+        ),
+        SizedBox(height: 30), // Add spacing between text fields
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            InkWell(
+              onTap: () => _selectStartDate(context),
+              child: Row(
                 children: <Widget>[
-                  const Text('Enter Organisation Details',
-                      style: TextStyle(fontSize: 20)),
-                  TextField(
-                    controller: _orgNameController,
-                    decoration:
-                        const InputDecoration(labelText: 'Organization Name'),
-                  ),
-                  TextField(
-                    controller: _orgCodeController,
-                    decoration:
-                        const InputDecoration(labelText: 'Organization Code'),
-                  ),
-                  TextField(
-                    controller: _orgDescController,
-                    decoration: const InputDecoration(
-                        labelText: 'Organization Description'),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () => _selectStartDate(context),
-                        child: Row(
-                          children: <Widget>[
-                            const Icon(Icons.calendar_today),
-                            Text(_startDate != null
-                                ? _startDate.toString()
-                                : 'Select Start Date'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      InkWell(
-                        onTap: () => _selectEndDate(context),
-                        child: Row(
-                          children: <Widget>[
-                            const Icon(Icons.calendar_today),
-                            Text(_endDate != null
-                                ? _endDate.toString()
-                                : 'Select End Date'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: _createOrganisation,
-                    child: const Text('Create Organisation'),
+                  const Icon(Icons.calendar_today),
+                  Text(
+                    _startDate != null ? _startDate.toString() : 'Select Start Date',
+                    // Increase text size
+                    style: TextStyle(fontSize: 16),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            const SizedBox(height: 30),
+            InkWell(
+              onTap: () => _selectEndDate(context),
+              child: Row(
+                children: <Widget>[
+                  const Icon(Icons.calendar_today),
+                  Text(
+                    _endDate != null ? _endDate.toString() : 'Select End Date',
+                    // Increase text size
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 50),
+        Center(
+  child: ElevatedButton(
+    onPressed: _createOrganisation,
+    child: const Text('Create Organisation'),
+     style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all( Color(0xFFF1E90FF)),
+    ),
+  ),
+)
+        
+      ],
+    ),
+  ),
+),
+     ]) ));
+}
 }

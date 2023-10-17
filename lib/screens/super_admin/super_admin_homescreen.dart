@@ -50,7 +50,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFFFD700),
+          backgroundColor: const Color(0xFFFF3752e),
           title: const Center(
             child: Text(
               "Welcome super admin",
@@ -102,7 +102,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color(0xFFFFD700),
+                backgroundColor: const Color(0xFFFF3752e),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -110,6 +110,24 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                 },
                 selectedIndex: _selectedIndex,
                 destinations: const [
+
+                    NavigationRailDestination(
+                    icon: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundImage: NetworkImage(
+                            'https://example.com/your_profile_image.jpg',
+                          ),
+                          child: Icon(Icons.person),
+                        ),
+                      ),
+                    ),
+                    label: Text('John Doe'),
+                  ),
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
                     label: Text('Dashboard'),
@@ -138,23 +156,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                     icon: Icon(Icons.logout),
                     label: Text('Logout'),
                   ),
-                  NavigationRailDestination(
-                    icon: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/your_profile_image.jpg',
-                          ),
-                          child: Icon(Icons.person),
-                        ),
-                      ),
-                    ),
-                    label: Text('John Doe'),
-                  ),
+                
                 ],
                 labelType: NavigationRailLabelType.all,
                 selectedLabelTextStyle: const TextStyle(
