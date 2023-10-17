@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organaisation_model.dart';
 import 'package:harbinger_flutter/screens/super_admin/moreinfo_screen_model.dart';
@@ -103,206 +104,108 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
           bool isActivated = organisation.status == 'active';
           Color cardColor = isActivated ? Colors.green : Colors.red;
 
-          return Card(
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            color:
-                cardBackgroundColor, // Use Light Blue as the card background color
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ID: ${organisation.orgId}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: cardTextColor, // Use Dark Gray for text color
-                          fontSize: 18, // Increase font size
-                        ),
-                      ),
-                      Text(
-                        'Status: ${organisation.status}',
-                        style: TextStyle(
-                          color: cardTextColor, // Use Dark Gray for text color
-                          fontSize: 16, // Increase font size
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Name: ${organisation.orgName}',
-                    style: TextStyle(
-                      color: cardTextColor, // Use Dark Gray for text color
-                      fontSize: 16, // Increase font size
-                    ),
-                  ),
-                  Text(
-                    'Code: ${organisation.orgCode}',
-                    style: TextStyle(
-                      color: cardTextColor, // Use Dark Gray for text color
-                      fontSize: 16, // Increase font size
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          String newStatus =
-                              isActivated ? 'inactive' : 'active';
-                          try {
-                            String result = await changeStatusOfOrganisation(
-                                organisation.orgId, newStatus);
-                            if (result == "Status changed successfully") {
-                              setState(() {
-                                organisation.status = newStatus;
-                              });
-                            } else {}
-                          } catch (e) {}
-                        },
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: isActivated ? Colors.green : Colors.red,
-                          ),
-                          child: Stack(
-                            children: [
-                              AnimatedPositioned(
-                                duration: const Duration(milliseconds: 300),
-                                left: isActivated ? 0 : 30,
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  NextScreen(orgId: organisation.orgId),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Click Here",
+          return InkWell(
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color:
+                  cardBackgroundColor, // Use Light Blue as the card background color
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Status: ${organisation.status}',
                           style: TextStyle(
-                            color: Colors.white,
+                            color:
+                                cardTextColor, // Use Dark Gray for text color
                             fontSize: 16, // Increase font size
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Name: ${organisation.orgName}',
+                      style: TextStyle(
+                        color: cardTextColor, // Use Dark Gray for text color
+                        fontSize: 26, // Increase font size
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    Text(
+                      'Code: ${organisation.orgCode}',
+                      style: TextStyle(
+                        color: cardTextColor, // Use Dark Gray for text color
+                        fontSize: 20, // Increase font size
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            String newStatus =
+                                isActivated ? 'inactive' : 'active';
+                            try {
+                              String result = await changeStatusOfOrganisation(
+                                  organisation.orgId, newStatus);
+                              if (result == "Status changed successfully") {
+                                setState(() {
+                                  organisation.status = newStatus;
+                                });
+                              } else {}
+                            } catch (e) {}
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: isActivated ? Colors.green : Colors.red,
+                            ),
+                            child: Stack(
+                              children: [
+                                AnimatedPositioned(
+                                  duration: const Duration(milliseconds: 300),
+                                  left: isActivated ? 0 : 30,
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => NextScreen(
+                    orgId: organisation.orgId), // Provide the orgId value here
+              );
+            },
           );
         },
       ),
     );
   }
-
-  // Widget _buildDataTable() {
-  //   if (organisations == null) {
-  //     // Handle loading state
-  //     return const Center(child: CircularProgressIndicator());
-  //   } else if (organisations!.isEmpty) {
-  //     // Handle empty state
-  //     return const Center(child: Text("No organisations found"));
-  //   } else {
-  //     return Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: DataTable(
-  //         columns: const [
-  //           DataColumn(label: Text('Id')),
-  //           DataColumn(label: Text('Name')),
-  //           DataColumn(label: Text('Code')),
-  //           DataColumn(label: Text('Start Date')),
-  //           DataColumn(label: Text('End Date')),
-  //           DataColumn(label: Text('Status')),
-  //           DataColumn(label: Text('Actions')),
-  //           DataColumn(label: Text('   ')), // Add a column for the ToggleButton
-  //         ],
-  //         rows: organisations!.map((organisation) {
-  //           bool isActivated = organisation.status ==
-  //               'active'; // Check the status of the organisation
-  //           return DataRow(
-  //             cells: [
-  //               DataCell(Text(organisation.orgId.toString())),
-  //               DataCell(Text(organisation.orgName)),
-  //               DataCell(Text(organisation.orgCode)),
-  //               DataCell(Text(organisation.orgStartDate.toString())),
-  //               DataCell(Text(organisation.orgEndDate.toString())),
-  //               DataCell(
-  //                 Text(organisation.status),
-  //                 // Use the isActivated variable to set the color
-  //                 // Green for active, Red for inactive
-  //               ),
-  //               DataCell(
-  //                 ToggleButtons(
-  //                   isSelected: [isActivated, !isActivated],
-  //                   onPressed: (int newIndex) async {
-  //                     String newStatus = newIndex == 0 ? 'active' : 'inactive';
-  //                     try {
-  //                       // Call the method to change the status
-  //                       String result = await changeStatusOfOrganisation(
-  //                           organisation.orgId, newStatus);
-  //                       if (result == "Status changed successfully") {
-  //                         setState(() {
-  //                           organisation.status = newStatus;
-  //                         });
-  //                       } else {}
-  //                     } catch (e) {}
-  //                   },
-  //                   children: <Widget>[
-  //                     Icon(Icons.check_circle,
-  //                         color: isActivated ? Colors.green : Colors.grey),
-  //                     Icon(Icons.cancel,
-  //                         color: !isActivated ? Colors.red : Colors.grey),
-  //                   ],
-  //                 ),
-  //               ),
-  //               DataCell(
-  //                 TextButton(
-  //                   onPressed: () {
-  //                     Navigator.push(
-  //                       context,
-  //                       MaterialPageRoute(
-  //                         builder: (context) =>
-  //                             NextScreen(orgId: organisation.orgId),
-  //                       ),
-  //                     );
-  //                   },
-  //                   child: const Text("Click Here"),
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         }).toList(),
-  //       ),
-  //     );
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -314,13 +217,35 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
   }
 }
 
+class HalfScreenModal extends StatelessWidget {
+  final int orgId; // You can define any necessary properties here
 
+  const HalfScreenModal({super.key, required this.orgId});
 
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      elevation: 6,
+      alignment: Alignment(1.2,-1.07),
+      backgroundColor: Colors.transparent,
+      child: Container(
+        width: MediaQuery.of(context).size.width *
+            0.5, // Adjust the height as needed
+        decoration: const BoxDecoration(
 
-
-
-
-
-
-
-
+          color: Colors.white,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              // Add your content for the modal here
+              Text("Organization ID: $orgId"),
+              NextScreen(orgId: orgId)
+              // Add any other widgets or content as needed
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
