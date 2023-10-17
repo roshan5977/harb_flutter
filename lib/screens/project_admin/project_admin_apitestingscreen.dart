@@ -7,7 +7,7 @@ class ApiTestingProjectAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FileUploadScreen();
+    return const SafeArea(child: Scaffold(body: FileUploadScreen()));
   }
 }
 
@@ -22,15 +22,20 @@ class _FileUploadScreenState extends State<FileUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("API Testing App"),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Icon(FontAwesomeIcons.cloudUploadAlt, size: 100.0),
-            const Text("Upload a .json file to start API testing"),
+            const Icon(FontAwesomeIcons.cloudUploadAlt, size: 160.0),
+            SizedBox(
+              height: 20,
+            ),
+            const Text(
+                "Upload the project openapi.json file to start API testing",
+                style: TextStyle(fontSize: 40)),
+            SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
               onPressed: () async {
                 final file = await FilePicker.platform.pickFiles(
@@ -38,6 +43,7 @@ class _FileUploadScreenState extends State<FileUploadScreen> {
                   allowedExtensions: ['json'],
                 );
                 if (file != null) {
+                  print(file);
                   //make ur call here
                 }
               },

@@ -107,11 +107,11 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                 destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
-                    label: Text('WorkspaceS'),
+                    label: Text('Workspace'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.feed),
-                    label: Text('ProjectS'),
+                    label: Text('Project'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.view_agenda),
@@ -154,10 +154,10 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
               child: Stack(
                 children: [
                   // Display OrganisationScreen content when index is 2
-                  if (_selectedIndex == 1) const WorkspaceScreenProjectAdmin(),
+                  if (_selectedIndex == 0) const WorkspaceScreenProjectAdmin(),
                   // Display CreateOrganisation content when index is 3
-                  if (_selectedIndex == 2) const ProjectScreenProjectAdmin(),
-                  if (_selectedIndex == 5) const ApiTestingProjectAdmin(),
+                  if (_selectedIndex == 1) const ProjectScreenProjectAdmin(),
+                  if (_selectedIndex == 4) const ApiTestingProjectAdmin(),
                 ],
               ),
             ),
