@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organaisation_model.dart';
 import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart';
-import 'package:harbinger_flutter/services/organisation_service.dart';
+import 'package:harbinger_flutter/services/api_service.dart';
 import 'package:intl/intl.dart';
 
 class CreateOrganisation extends StatefulWidget {
@@ -131,7 +131,7 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(80.0), // Adjust the padding
+              padding: const EdgeInsets.all(60.0), // Adjust the padding
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -144,7 +144,7 @@ class _CreateOrganisationState extends State<CreateOrganisation> {
                   ),
                   const SizedBox(
                       height:
-                          30), // Add spacing between the title and text fields
+                          20), // Add spacing between the title and text fields
                   TextField(
                     controller: _orgNameController,
                     decoration: const InputDecoration(

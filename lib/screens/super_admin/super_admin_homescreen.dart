@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/screens/login_screen.dart';
 
 import 'package:harbinger_flutter/screens/super_admin/super_admin_createorg.dart';
 import 'package:harbinger_flutter/screens/super_admin/super_admin_organisations.dart';
 import 'package:harbinger_flutter/screens/super_admin/test.dart';
+import 'package:harbinger_flutter/utils/shared_pref.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -50,7 +52,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFFF3752e),
+          backgroundColor: const Color(0xffff3752e),
           title: const Center(
             child: Text(
               "Welcome super admin",
@@ -66,6 +68,12 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
               ),
               onPressed: () {
                 _toggleTheme();
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.logout_rounded),
+              onPressed: () {
+                _handleLogout(); // Call the logout function when the logout button is pressed
               },
             ),
           ],
@@ -93,8 +101,6 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                       icon: Icon(Icons.analytics), label: 'Analytics'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: 'settings'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.logout), label: 'logout'),
                 ],
               )
             : null,
@@ -102,7 +108,7 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color(0xFFFF3752e),
+                backgroundColor: const Color(0xffff3752e),
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -134,11 +140,6 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
                     icon: Icon(Icons.settings),
                     label: Text('settings'),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.logout),
-                    label: Text('Logout'),
-                  ),
-                
                 ],
                 labelType: NavigationRailLabelType.all,
                 selectedLabelTextStyle: const TextStyle(
@@ -161,6 +162,20 @@ class _SuperAdminHomeScreenState extends State<SuperAdminHomeScreen> {
         ),
       ),
       theme: currentTheme,
+    );
+  }
+
+  void _handleLogout() {
+    // Clear the user's token or any other necessary data from SharedPreferences
+    MySharedPref
+        .cleartoken(); // Use the appropriate method from your SharedPreferences handling file
+
+    // Navigate to the LoginScreen
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>
+            const LoginContainer(), // Use the appropriate route or widget for your LoginScreen
+      ),
     );
   }
 }

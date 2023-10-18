@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organisation_remodel.dart';
 import 'package:harbinger_flutter/screens/super_admin/super_admin_add_users.dart';
-import 'package:harbinger_flutter/services/organisation_service.dart';
+import 'package:harbinger_flutter/services/api_service.dart';
 
 class NextScreen extends StatefulWidget {
   final int orgId;

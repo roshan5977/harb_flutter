@@ -52,10 +52,17 @@ class MySharedPref extends StatelessWidget {
     final token = sharedPreferences.getString("token");
     return token;
   }
-   static Future<String?> getRole() async {
+
+  static Future<String?> getRole() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final role = sharedPreferences.getString("role");
     return role;
+  }
+
+  static void cleartoken() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+     sharedPreferences.clear();
+
   }
 
   // static setUser(User user) async {

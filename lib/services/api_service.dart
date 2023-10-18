@@ -110,4 +110,25 @@ class ApiService {
       throw Exception(errorMessage);
     }
   }
+
+  Future<bool> checkenv() async {
+    final response = await http.get(Uri.parse('$baseUrl/env/check/'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data['git_info,node info,python info'] == true;
+    } else {
+      throw Exception('Failed to check all installation');
+    }
+  }
+
+  // Future<String[]> sendjsonfile() async {
+  //   final response =
+  //       await http.get(Uri.parse('http://127.0.0.1:8001//uploadapiinfo/'));
+  //   if (response.statusCode == 200) {
+  //     return response;
+
+  //   } else {
+  //     throw Exception('Failed get all endpoint');
+  //   }
+  // }
 }

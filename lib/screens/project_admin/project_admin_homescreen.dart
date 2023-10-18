@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/screens/env_bottombar.dart';
+import 'package:harbinger_flutter/screens/login_screen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_apitestingscreen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_projectscreen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_workspacescreen.dart';
+import 'package:harbinger_flutter/utils/constants.dart';
+import 'package:harbinger_flutter/utils/shared_pref.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -49,11 +53,11 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+          backgroundColor: SpecialColors.Blue2,
           title: const Center(
             child: Text(
               "Project Admin",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
           actions: [
@@ -67,13 +71,19 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                 _toggleTheme();
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.logout_rounded),
+              onPressed: () {
+                _handleLogout(); // Call the logout function when the logout button is pressed
+              },
+            ),
           ],
         ),
         bottomNavigationBar: MediaQuery.of(context).size.width < 640
             ? BottomNavigationBar(
                 currentIndex: _selectedIndex,
                 unselectedItemColor: Colors.grey,
-                selectedItemColor: Colors.indigoAccent,
+                selectedItemColor: const Color.fromARGB(255, 245, 245, 247),
                 onTap: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -92,12 +102,12 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                       icon: Icon(Icons.settings), label: 'ApiTesting'),
                 ],
               )
-            : null,
+            : const EnvScreen(),
         body: Row(
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
-                backgroundColor: const Color.fromARGB(255, 199, 230, 238),
+                backgroundColor: SpecialColors.Blue2,
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -125,27 +135,10 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                     icon: Icon(Icons.settings),
                     label: Text('ApiTesting'),
                   ),
-                  NavigationRailDestination(
-                    icon: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundImage: NetworkImage(
-                            'https://example.com/your_profile_image.jpg',
-                          ),
-                          child: Icon(Icons.person),
-                        ),
-                      ),
-                    ),
-                    label: Text('John Doe'),
-                  ),
                 ],
                 labelType: NavigationRailLabelType.all,
                 selectedLabelTextStyle: const TextStyle(
-                  color: Colors.teal,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 unselectedLabelTextStyle: const TextStyle(),
               ),
@@ -165,6 +158,20 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
         ),
       ),
       theme: currentTheme,
+    );
+  }
+
+  void _handleLogout() {
+    // Clear the user's token or any other necessary data from SharedPreferences
+    MySharedPref
+        .cleartoken(); // Use the appropriate method from your SharedPreferences handling file
+
+    // Navigate to the LoginScreen
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>
+            const LoginContainer(), // Use the appropriate route or widget for your LoginScreen
+      ),
     );
   }
 }

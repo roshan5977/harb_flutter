@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/organaisation_model.dart';
 import 'package:harbinger_flutter/screens/super_admin/moreinfo_screen_model.dart';
 
-import 'package:harbinger_flutter/services/organisation_service.dart';
+import 'package:harbinger_flutter/services/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class AdminOrganisationScreen extends StatelessWidget {

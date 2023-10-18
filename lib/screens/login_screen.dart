@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:harbinger_flutter/screens/org_admin/org_admin_homescreen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_homescreen.dart';
 import 'package:harbinger_flutter/screens/project_member/project_member_homescreen.dart';
@@ -33,7 +34,6 @@ class _MyAppState extends State<MyApp> {
         role = gettingrole;
       }
       print("printing role");
-      // Navigation.navigateToHarbingerHome(context, role);
     }
     setState(() {
       isLoading = false;
@@ -153,17 +153,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        body: Row(
-          children: [
-            const Carousel(),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.407,
-              height: MediaQuery.of(context).size.height,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.circular(20), // Adjust the radius for rounded corners
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const Carousel(),
+          Expanded(
+            child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFFFD823),
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+                color: const Color.fromARGB(255, 196, 198, 187),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -193,27 +206,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               // ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 102, top: 26),
+                                    const EdgeInsets.only(left: 25, top: 26),
                                 child: Container(
-                                  child: const Text(
+                                  child: Text(
                                     'Harbinger',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 205, 121, 4),
-                                        fontSize: 39),
+                                    style: GoogleFonts.raleway(
+                                      textStyle: const TextStyle(
+                                        color: Color(0xFF384289),
+                                        fontSize: 39,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               )
                             ],
                           ),
                           // const SizedBox(height: 50),
-                          const Text(
-                            '',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF384289),
-                            ),
-                          ),
+                         
                         ],
                       ),
                     ),
@@ -316,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 174, 204, 214),
+                                    Color.fromARGB(255, 131, 135, 165),
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 40.0,
                                   vertical: 15.0,
@@ -328,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Text(
                                 'Login',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 10, 135, 177),
+                                  color: Color(0xFF384289),
                                   fontSize: 18,
                                 ),
                               ),
@@ -346,7 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text(
                       "harbinger@feuji.com",
                       style: TextStyle(
-                        color: Color(0xffFF8303),
+                        color: Color(0xFF384289),
                         fontSize: 16,
                       ),
                     ),
@@ -354,8 +364,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -400,22 +410,38 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-
+  static const autoScrollDuration = Duration(seconds: 7);
   List<String> animationAssets = [
     'images/animation1.json',
     'images/animation2.json',
     'images/animation3.json',
-    'images/animation4.json',
   ];
 
   @override
   void initState() {
     super.initState();
+     _startAutoScroll();
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page?.round() ?? 0;
       });
     });
+  }
+
+    void _startAutoScroll() {
+    Future.delayed(autoScrollDuration, _scrollToNextPage);
+  }
+
+  void _scrollToNextPage() {
+    if (_currentPage < animationAssets.length - 1) {
+      _pageController.animateToPage(_currentPage + 1,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
+    } else {
+      // If it's the last page, go back to the first page
+      _pageController.animateToPage(0,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
+    }
+    _startAutoScroll(); // Start the auto-scroll again
   }
 
   @override
@@ -533,9 +559,14 @@ class CarouselItem extends StatelessWidget {
 //   }
 // }
 
-class LoginContainer extends StatelessWidget {
+class LoginContainer extends StatefulWidget {
   const LoginContainer({Key? key}) : super(key: key);
 
+  @override
+  State<LoginContainer> createState() => _LoginContainerState();
+}
+
+class _LoginContainerState extends State<LoginContainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -560,10 +591,10 @@ class LoginContainer extends StatelessWidget {
           Center(
             child: Container(
               margin: const EdgeInsets.fromLTRB(116, 38, 116, 38),
-              padding: const EdgeInsets.all(.06),
+              padding: const EdgeInsets.all(0.06),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.2),

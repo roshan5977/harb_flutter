@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harbinger_flutter/models/user_model.dart';
-import 'package:harbinger_flutter/services/organisation_service.dart';
+import 'package:harbinger_flutter/services/api_service.dart';
 
 class UserRegistrationForm extends StatefulWidget {
   final int orgId;
