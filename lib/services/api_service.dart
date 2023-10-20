@@ -3,6 +3,7 @@ import 'package:harbinger_flutter/models/organaisation_model.dart';
 import 'package:harbinger_flutter/models/organisation_image_model.dart';
 import 'package:harbinger_flutter/models/organisation_remodel.dart';
 import 'package:harbinger_flutter/models/user_model.dart';
+import 'package:harbinger_flutter/models/workspace_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -121,14 +122,50 @@ class ApiService {
     }
   }
 
-  // Future<String[]> sendjsonfile() async {
-  //   final response =
-  //       await http.get(Uri.parse('http://127.0.0.1:8001//uploadapiinfo/'));
-  //   if (response.statusCode == 200) {
-  //     return response;
+  Future<List<Workspace>> getWorkspaces(int userId) async {
+    final response = await http.get(Uri.parse('$baseUrl/workspace/$userId'));
 
-  //   } else {
-  //     throw Exception('Failed get all endpoint');
-  //   }
-  // }
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<Workspace> workspaces =
+          jsonData.map((json) => Workspace.fromJson(json)).toList();
+      return workspaces;
+    } else {
+      // If the server did not return a 200 OK response, throw an exception.
+      throw Exception('Failed to load workspaces');
+    }
+  }
+
+  Future<Workspace> createWorkspace(Workspace workspace) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/workspace/create'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(workspace.toJson()),
+    );
+    final Map<String, dynamic> newworkspace = workspace.toJson();
+    print("response$response");
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print("responseData$responseData");
+
+      // return Workspace(
+      //   workspaceName: responseData['workspace_name'],
+      //   workspacePath: responseData['workspace_path'],
+      //   devMacAddress: responseData['dev_mac_address'],
+      //   isOrphan: responseData['is_orphan'],
+      //   userRefId:  responseData['user_ref_id'],
+      //   workspaceId:  responseData['workspace_id'],
+      //   // Add other fields as needed
+      // );
+      return Workspace.fromJson(responseData);
+    } else {
+      throw Exception('Failed to create workspace: ${response.statusCode}');
+    }
+  }
+
+  
 }

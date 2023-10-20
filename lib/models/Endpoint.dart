@@ -1,6 +1,10 @@
+
+import 'package:json_annotation/json_annotation.dart';
+
+
 class Endpoint {
   final String path;
-  final String httpMethod;
+  final  String httpMethod;
 
   Endpoint({
     required this.path,
@@ -14,3 +18,4 @@ class Endpoint {
     );
   }
 }
+

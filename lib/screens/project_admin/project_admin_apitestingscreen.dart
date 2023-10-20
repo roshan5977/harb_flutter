@@ -4,11 +4,15 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:harbinger_flutter/main.dart';
 import 'package:harbinger_flutter/models/Endpoint.dart';
 import 'package:harbinger_flutter/screens/project_admin/ChooseEndPointScreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/endpoints_testing_screen.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_homescreen.dart';
 import 'package:harbinger_flutter/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
 
 class ApiTestingProjectAdmin extends StatelessWidget {
   const ApiTestingProjectAdmin({super.key});
@@ -30,6 +34,8 @@ class _FileUploadScreenState extends State<FileUploadScreen> {
   bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Center(
         child: ModalProgressHUD(
@@ -97,12 +103,11 @@ class _FileUploadScreenState extends State<FileUploadScreen> {
                           .map((e) => Endpoint.fromJson(e))
                           .toList();
                       // Navigate to the ChooseEndPointScreen and pass the 'endpoints' list
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ChooseEndPointScreen(endpoints: endpoints),
-                        ),
-                      );
+                      Provider.of<ScreenState>(context, listen: false)
+                          .changeScreen('endpoint',
+                              data: {"endpoints": endpoints});
+                      print("changing");
+                      
                       print('image uploaded');
                     } else {
                       print('failed');

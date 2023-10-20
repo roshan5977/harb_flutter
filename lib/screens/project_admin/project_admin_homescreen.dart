@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:harbinger_flutter/main.dart';
+import 'package:harbinger_flutter/models/organisation_remodel.dart';
 import 'package:harbinger_flutter/screens/env_bottombar.dart';
 import 'package:harbinger_flutter/screens/login_screen.dart';
+import 'package:harbinger_flutter/screens/project_admin/ChooseEndPointScreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/endpoints_testing_screen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_apitestingscreen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_projectscreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_reportscreen.dart';
+import 'package:harbinger_flutter/screens/project_admin/project_admin_testplanscreen.dart';
 import 'package:harbinger_flutter/screens/project_admin/project_admin_workspacescreen.dart';
 import 'package:harbinger_flutter/utils/constants.dart';
 import 'package:harbinger_flutter/utils/shared_pref.dart';
+import 'package:provider/provider.dart';
 
 enum AppThemeMode { light, dark }
+
+class ScreenState extends ChangeNotifier {
+  String _currentScreen = 'workspace';
+  Map<String, dynamic> _userData = {};
+
+  String get currentScreen => _currentScreen;
+  Map<String, dynamic> get userData => _userData;
+
+  void changeScreen(String screen, {Map<String, dynamic>? data}) {
+    _currentScreen = screen;
+    if (data != null) {
+      _userData = data;
+    }
+    notifyListeners();
+  }
+}
 
 class ProjectAdminHarbinger extends StatelessWidget {
   const ProjectAdminHarbinger({Key? key}) : super(key: key);
@@ -16,7 +39,9 @@ class ProjectAdminHarbinger extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const ProjectAdminHomeScreen(),
+      home: const MaterialApp(
+        home: ProjectAdminHomeScreen(),
+      ),
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
@@ -48,6 +73,23 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
     ThemeData currentTheme = _currentThemeMode == AppThemeMode.light
         ? ThemeData.light()
         : ThemeData.dark();
+
+    final screenState = Provider.of<ScreenState>(context);
+
+    Widget content = const WorkspaceScreenProjectAdmin();
+    if (screenState.currentScreen == 'workspace') {
+      content = const WorkspaceScreenProjectAdmin();
+    } else if (screenState.currentScreen == 'project') {
+      content = const ProjectScreenProjectAdmin();
+    } else if (screenState.currentScreen == 'testplan') {
+      content = const ProjectAdminTestPlan();
+    } else if (screenState.currentScreen == 'reports') {
+      content = const ProjectAdminReportScreen();
+    } else if (screenState.currentScreen == 'apitesting') {
+      content = const ApiTestingProjectAdmin();
+    } else if (screenState.currentScreen == 'endpoint') {
+      content = const ChooseEndPointScreen();
+    }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -91,15 +133,22 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Workspace'),
+                      icon:
+                          Icon(Icons.add_home_work_sharp, color: Colors.white),
+                      label: 'Workspace'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.feed), label: 'Project'),
+                      icon: Icon(Icons.feed, color: Colors.white),
+                      label: 'Project'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.view_agenda), label: 'TestPlan'),
+                      icon: Icon(Icons.view_agenda, color: Colors.white),
+                      label: 'TestPlan'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.report), label: 'Reports'),
+                      icon: Icon(Icons.report, color: Colors.white),
+                      label: 'Reports'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.settings), label: 'ApiTesting'),
+                      icon:
+                          Icon(Icons.developer_mode_sharp, color: Colors.white),
+                      label: 'ApiTesting'),
                 ],
               )
             : const EnvScreen(),
@@ -108,57 +157,88 @@ class _ProjectAdminHomeScreenState extends State<ProjectAdminHomeScreen> {
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
                 backgroundColor: SpecialColors.Blue2,
+                selectedIndex: _getSelectedIndex(screenState.currentScreen),
                 onDestinationSelected: (int index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
+                  String route = 'workspace';
+                  if (index == 0) {
+                    route = 'workspace';
+                  } else if (index == 1) {
+                    route = 'project';
+                  } else if (index == 2) {
+                    route = 'testplan'; // Update with your route names
+                  } else if (index == 3) {
+                    route = 'reports'; // Update with your route names
+                  } else if (index == 4) {
+                    route = 'apitesting'; // Update with your route names
+                  }
+                  Provider.of<ScreenState>(context, listen: false)
+                      .changeScreen(route);
                 },
-                selectedIndex: _selectedIndex,
                 destinations: const [
                   NavigationRailDestination(
-                    icon: Icon(Icons.home),
+                    icon: Icon(Icons.add_home_work_sharp, color: Colors.white),
                     label: Text('Workspace'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.feed),
+                    icon: Icon(Icons.feed, color: Colors.white),
                     label: Text('Project'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.view_agenda),
+                    icon: Icon(Icons.view_agenda, color: Colors.white),
                     label: Text('Testplan'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.report),
+                    icon: Icon(Icons.report, color: Colors.white),
                     label: Text('Reports'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.settings),
+                    icon: Icon(Icons.developer_mode_sharp, color: Colors.white),
                     label: Text('ApiTesting'),
                   ),
+                  // NavigationRailDestination(
+                  //   icon:Icon(Icons.developer_mode_sharp, color: Colors.white),
+                  //     // icon: Column(
+                  //     //   children: [
+                  //     //     Image.asset('images/feuji.png',
+                  //     //         fit: BoxFit.cover, height: 50, width: 70)
+                  //     //   ],
+                  //     // ),
+                  //     label: Text('  k'),
+                  //     ),
                 ],
                 labelType: NavigationRailLabelType.all,
                 selectedLabelTextStyle: const TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
-                unselectedLabelTextStyle: const TextStyle(),
+                unselectedLabelTextStyle:
+                    const TextStyle(color: Color.fromARGB(255, 133, 167, 190)),
               ),
+            const VerticalDivider(thickness: 1, width: 1),
             Expanded(
-              // This will display the OrganisationScreen content on top
-              child: Stack(
-                children: [
-                  // Display OrganisationScreen content when index is 2
-                  if (_selectedIndex == 0) const WorkspaceScreenProjectAdmin(),
-                  // Display CreateOrganisation content when index is 3
-                  if (_selectedIndex == 1) const ProjectScreenProjectAdmin(),
-                  if (_selectedIndex == 4) const ApiTestingProjectAdmin(),
-                ],
-              ),
+              child: content,
             ),
           ],
         ),
       ),
       theme: currentTheme,
     );
+  }
+
+  int _getSelectedIndex(String currentScreen) {
+    switch (currentScreen) {
+      case 'workspace':
+        return 0;
+      case 'project':
+        return 1;
+      case 'testplan':
+        return 2; // Update with your route names
+      case 'reports':
+        return 3; // Update with your route names
+      case 'apitesting':
+        return 4; // Update with your route names
+      default:
+        return 0; // You can set a default index if needed
+    }
   }
 
   void _handleLogout() {
